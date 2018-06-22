@@ -1,0 +1,92 @@
+task clean(type: Delete) {
+    delete "..\\bin\\Release\\netstandard2.0\\azure"
+}
+
+task dotNetPublish(type: Exec) {
+    commandLine "cmd", "/c", "dotnet"
+    args "publish", "..", "-c=Release", "-o=.\\bin\\Release\\netstandard2.0\\azure\\function\\bin"
+
+    ext.version = new Date().format("yyyyMMddHHmmss")
+}
+dotNetPublish.dependsOn(clean);
+
+task copyDepsJson(type: Copy) {
+    from "..\\bin\\Release\\netstandard2.0\\azure\\function\\bin"
+    include "*.deps.json"
+    into "..\\bin\\Release\\netstandard2.0\\azure\\function"
+}
+copyDepsJson.dependsOn(dotNetPublish);
+
+task copyFunctionJson(type: Copy) {
+    from ".."
+    include "function.json"
+    into "..\\bin\\Release\\netstandard2.0\\azure\\function\\ResourceApi"
+}
+copyFunctionJson.dependsOn(dotNetPublish);
+
+task copyHostJson(type: Copy) {
+    from ".."
+    include "host.json"
+    into "..\\bin\\Release\\netstandard2.0\\azure\\function"
+}
+copyFunctionJson.dependsOn(dotNetPublish);
+
+task deleteJsonFilesFromBin(type: Delete) {
+    delete fileTree("..\\bin\\Release\\netstandard2.0\\azure\\function\\bin") {
+        include "*.deps.json"
+        include "function.json"
+        include "host.json"
+    }
+}
+deleteJsonFilesFromBin.dependsOn(copyDepsJson);
+deleteJsonFilesFromBin.dependsOn(copyFunctionJson);
+deleteJsonFilesFromBin.dependsOn(copyHostJson);
+
+task zipOutput(type: Zip) {
+    archiveName = "function_" + dotNetPublish.ext.version + ".zip"
+    destinationDir = file("..\\bin\\Release\\netstandard2.0\\azure")
+
+    from ("..\\bin\\Release\\netstandard2.0\\azure\\function")
+
+    ext.archiveTerraformPath = "../../bin/Release/netstandard2.0/azure/" + zipOutput.archiveName;
+}
+zipOutput.dependsOn(deleteJsonFilesFromBin);
+
+task setZipFunctionVar {
+    File zipVarFile = new File("terraform\\zip-file.tfvars");
+    zipVarFile.setText("restApiZipFile = \"" + zipOutput.ext.archiveTerraformPath + "\"");
+}
+setZipFunctionVar.dependsOn(zipOutput);
+
+task terraformInit(type: Exec) {
+    commandLine "cmd", "/c", "terraform"
+    args "init", "-input=false", "-backend-config=backend.tf"
+    workingDir "terraform"
+}
+
+task terraformApply(type: Exec) {
+    commandLine "cmd", "/c", "terraform"
+    args "apply", "-auto-approve", "-var-file=\"private.tfvars\"", "-var-file=\"public.tfvars\"", "-var-file=\"zip-file.tfvars\""
+    workingDir "terraform"
+}
+terraformApply.dependsOn(terraformInit);
+
+task runLocalAzureFuncRuntime(type: Exec) {
+    commandLine "cmd", "/c", "func"
+    args "start"
+    workingDir "..\\bin\\Release\\netstandard2.0\\azure\\function"
+}
+runLocalAzureFuncRuntime.dependsOn(deleteJsonFilesFromBin);
+
+task createPackage {}
+createPackage.dependsOn(setZipFunctionVar);
+
+task deploy {}
+deploy.dependsOn(terraformApply);
+
+task packageAndDeploy{}
+packageAndDeploy.dependsOn(createPackage);
+packageAndDeploy.finalizedBy(deploy);
+
+task debug {}
+debug.dependsOn(runLocalAzureFuncRuntime);

@@ -1,0 +1,33 @@
+{
+  "@context": "http://mcma.tv/context/default",
+  "@type": "mcma:Service", 
+  "label": "MediaInfo AME Service",
+  "hasResource": [
+    {
+      "resourceType": "mcma:JobAssignment",
+      "httpEndpoint": "http://test/endpoint/JobAssignments"
+    }
+  ],
+  "acceptsJobType": "mcma:AmeJob",
+  "acceptsJobProfile": [
+    {
+      "label": "ExtractTechnicalMetadata",
+      "hasInputParameter": [
+        {
+          "jobProperty": "mcma:inputFile",
+          "parameterType": "mcma:Locator"
+        },
+        {
+          "jobProperty": "mcma:outputLocation",
+          "parameterType": "mcma:Locator"
+        }
+      ],
+      "hasOutputParameter": [
+        {
+          "jobProperty": "mcma:outputFile",
+          "parameterType": "mcma:Locator"
+        }
+      ]
+    }
+  ]
+}

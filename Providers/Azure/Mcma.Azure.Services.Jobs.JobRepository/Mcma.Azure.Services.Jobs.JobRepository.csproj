@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.Http" Version="3.0.0-beta5" />
+    <PackageReference Include="WindowsAzure.Storage" Version="9.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Mcma.Azure\Mcma.Azure.csproj" />
+    <ProjectReference Include="..\..\..\Services\Mcma.Services.Jobs.JobRepository\Mcma.Services.Jobs.JobRepository.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="extensions.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

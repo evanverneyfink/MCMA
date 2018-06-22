@@ -1,0 +1,7 @@
+{
+  "extensions": [
+    {
+      "TypeName": "Mcma.Azure.DependencyInjection.DependencyInjectionExtension`1[[Mcma.Azure.Services.ServiceRegistry.Startup, Mcma.Azure.Services.ServiceRegistry]], Mcma.Azure"
+    }
+  ]
+}

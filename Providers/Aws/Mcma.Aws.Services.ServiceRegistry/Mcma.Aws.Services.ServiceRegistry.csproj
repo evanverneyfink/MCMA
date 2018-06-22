@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Amazon.Lambda.Core" Version="1.0.0" />
+    <PackageReference Include="Amazon.Lambda.Serialization.Json" Version="1.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Amazon.Lambda.Tools" Version="2.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Mcma.Aws\Mcma.Aws.csproj" />
+    <ProjectReference Include="..\..\..\Core\Mcma.Core\Mcma.Core.csproj" />
+    <ProjectReference Include="..\..\..\Core\Mcma.Server\Mcma.Server.csproj" />
+    <ProjectReference Include="..\..\..\Services\Mcma.Services.ServiceRegistry\Mcma.Services.ServiceRegistry.csproj" />
+    <ProjectReference Include="..\..\..\3rd Party\JsonLd\JsonLd.csproj" />
+    <ProjectReference Include="..\..\..\3rd Party\Pluralize.NET\Pluralize.NET.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Amazon.Lambda.APIGatewayEvents">
+      <HintPath>..\..\..\..\..\..\Users\evanv\.nuget\packages\amazon.lambda.apigatewayevents\1.1.2\lib\netstandard1.3\Amazon.Lambda.APIGatewayEvents.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

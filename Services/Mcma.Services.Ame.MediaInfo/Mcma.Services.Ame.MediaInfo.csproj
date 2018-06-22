@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\Mcma.Core\Mcma.Core.csproj" />
+    <ProjectReference Include="..\..\Core\Mcma.Server\Mcma.Server.csproj" />
+    <ProjectReference Include="..\Mcma.Services.Jobs.WorkerFunctions\Mcma.Services.Jobs.WorkerFunctions.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
+      <HintPath>..\..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.2.0.0\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="external\mediainfo_17.12\mediainfo">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="if not exist $(TargetDir)bin mkdir $(TargetDir)bin&#xD;&#xA;copy /y $(ProjectDir)external\mediainfo_17.12\mediainfo $(TargetDir)bin\mediainfo" />
+  </Target>
+
+</Project>

@@ -1,0 +1,17 @@
+{
+  "bindings": [
+    {
+      "type": "httpTrigger",
+      "name": "request",
+      "authLevel": "function",
+      "route": "{*all}" 
+    },
+    {
+      "type": "inject",
+      "name": "resourceApi" 
+    }
+  ],
+  "disabled": false,
+  "scriptFile": "../bin/Mcma.Azure.Services.Ame.MediaInfo.dll",
+  "entryPoint": "Mcma.Azure.Services.Ame.MediaInfo.MediaInfoFunctions.ResourceApi"
+}

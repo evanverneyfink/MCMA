@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Amazon.Lambda.Core" Version="1.0.0" />
+    <PackageReference Include="Amazon.Lambda.Serialization.Json" Version="1.2.0" />
+    <PackageReference Include="Amazon.Lambda.APIGatewayEvents" Version="1.1.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Amazon.Lambda.Tools" Version="2.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Mcma.Aws\Mcma.Aws.csproj" />
+    <ProjectReference Include="..\..\..\Core\Mcma.Core\Mcma.Core.csproj" />
+    <ProjectReference Include="..\..\..\Core\Mcma.Server\Mcma.Server.csproj" />
+    <ProjectReference Include="..\..\..\Services\Mcma.Services.Ame.MediaInfo\Mcma.Services.Ame.MediaInfo.csproj" />
+    <ProjectReference Include="..\..\..\Services\Mcma.Services.Jobs.WorkerFunctions\Mcma.Services.Jobs.WorkerFunctions.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="binaries\mediainfo">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

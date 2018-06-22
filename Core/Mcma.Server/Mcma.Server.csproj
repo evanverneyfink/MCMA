@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Mcma.Server</AssemblyName>
+    <RootNamespace>Mcma.Server</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.1.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Mcma.Core\Mcma.Core.csproj" />
+    <ProjectReference Include="..\Mcma.Json\Mcma.Json.csproj" />
+    <ProjectReference Include="..\..\3rd Party\JsonLd\JsonLd.csproj" />
+    <ProjectReference Include="..\..\3rd Party\Pluralize.NET\Pluralize.NET.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7\Microsoft.CSharp.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

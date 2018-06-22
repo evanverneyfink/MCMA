@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\Mcma.Core\Mcma.Core.csproj" />
+    <ProjectReference Include="..\..\Core\Mcma.Server\Mcma.Server.csproj" />
+    <ProjectReference Include="..\..\3rd Party\JsonLd\JsonLd.csproj" />
+    <ProjectReference Include="..\..\3rd Party\Pluralize.NET\Pluralize.NET.csproj" />
+  </ItemGroup>
+
+</Project>

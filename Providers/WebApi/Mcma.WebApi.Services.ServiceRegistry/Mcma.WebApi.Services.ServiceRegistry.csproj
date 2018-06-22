@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="appSettings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Aws\Mcma.Aws\Mcma.Aws.csproj" />
+    <ProjectReference Include="..\..\..\Core\Mcma.Core\Mcma.Core.csproj" />
+    <ProjectReference Include="..\..\..\Services\Mcma.Server.LocalDb\Mcma.Server.LiteDb.csproj" />
+    <ProjectReference Include="..\..\..\Core\Mcma.Server\Mcma.Server.csproj" />
+    <ProjectReference Include="..\..\..\Services\Mcma.Services.ServiceRegistry\Mcma.Services.ServiceRegistry.csproj" />
+    <ProjectReference Include="..\Mcma.WebApi\Mcma.WebApi.csproj" />
+  </ItemGroup>
+
+</Project>
