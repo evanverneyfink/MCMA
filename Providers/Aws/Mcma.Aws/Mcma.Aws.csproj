@@ -5,22 +5,26 @@
     <ApplicationIcon />
     <OutputType>Library</OutputType>
     <StartupObject />
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>0.0.0.4-alpha</Version>
+    <Authors>Evan Verney-Fink</Authors>
+    <Company>Triskel</Company>
+    <Description>Library for building MCMA services on AWS</Description>
+    <PackageProjectUrl>https://github.com/evanverneyfink/MCMA</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/evanverneyfink/MCMA</RepositoryUrl>
+    <RepositoryType>GitHub</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Amazon.Lambda" Version="0.10.1" />
     <PackageReference Include="Amazon.Lambda.APIGatewayEvents" Version="1.1.3" />
     <PackageReference Include="Amazon.Lambda.Core" Version="1.0.0" />
-    <PackageReference Include="AWSSDK.Core" Version="3.3.24.1" />
-    <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.3.10.1" />
-    <PackageReference Include="AWSSDK.Lambda" Version="3.3.13.4" />
-    <PackageReference Include="AWSSDK.S3" Version="3.3.18.4" />
+    <PackageReference Include="AWSSDK.Core" Version="3.3.24.2" />
+    <PackageReference Include="AWSSDK.Lambda" Version="3.3.13.5" />
+    <PackageReference Include="Mcma.Core" Version="0.0.0.2-alpha" />
+    <PackageReference Include="Mcma.Server" Version="0.0.0.4-alpha" />
+    <PackageReference Include="Mcma.Services.Jobs.WorkerFunctions" Version="0.0.0.4-alpha" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.1.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Core\Mcma.Server\Mcma.Server.csproj" />
-    <ProjectReference Include="..\..\..\Services\Mcma.Services.Ame.MediaInfo\Mcma.Services.Ame.MediaInfo.csproj" />
   </ItemGroup>
 
 </Project>

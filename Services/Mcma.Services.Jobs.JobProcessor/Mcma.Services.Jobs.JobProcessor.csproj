@@ -2,16 +2,21 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>0.0.0.4-alpha</Version>
+    <Authors>Evan Verney-Fink</Authors>
+    <Company>Triskel</Company>
+    <Description>Library for running job processing as part of an MCMA cloud service</Description>
+    <PackageLicenseUrl></PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/evanverneyfink/MCMA</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/evanverneyfink/MCMA</RepositoryUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Mcma.Core" Version="0.0.0.2-alpha" />
+    <PackageReference Include="Mcma.Server" Version="0.0.0.4-alpha" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.1.1" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\Core\Mcma.Core\Mcma.Core.csproj" />
-    <ProjectReference Include="..\..\Core\Mcma.Server\Mcma.Server.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,8 +1,8 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using Mcma.Azure.FileStorage;
 using Mcma.Core.Model;
+using Mcma.Extensions.Files.AzureFileStorage;
 using Mcma.Services.Ame.MediaInfo;
 using Microsoft.Extensions.Options;
 using Microsoft.WindowsAzure.Storage.File;

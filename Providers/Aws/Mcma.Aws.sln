@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2026
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mcma.Aws", "Mcma.Aws\Mcma.Aws.csproj", "{3AD1B74B-C47D-4A58-A848-7FE4B09A9E04}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mcma.Aws.Services.ServiceRegistry", "Mcma.Aws.Services.ServiceRegistry\Mcma.Aws.Services.ServiceRegistry.csproj", "{FE2D497D-0828-4C04-8251-1D82AEC75610}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mcma.Aws.Services.Jobs.JobRepository", "Mcma.Aws.Services.Jobs.JobRepository\Mcma.Aws.Services.Jobs.JobRepository.csproj", "{8FDCE3F5-2568-4EA4-A7B6-072D0FE775ED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mcma.Aws.Services.Jobs.JobProcessor", "Mcma.Aws.Services.Jobs.JobProcessor\Mcma.Aws.Services.Jobs.JobProcessor.csproj", "{49110ACE-0A01-4215-944B-D8D1CF7E5AE3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mcma.Aws.Services.Ame.MediaInfo", "Mcma.Aws.Services.Ame.MediaInfo\Mcma.Aws.Services.Ame.MediaInfo.csproj", "{97BE071A-278E-452F-9257-A8482A6EE5A3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3AD1B74B-C47D-4A58-A848-7FE4B09A9E04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AD1B74B-C47D-4A58-A848-7FE4B09A9E04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AD1B74B-C47D-4A58-A848-7FE4B09A9E04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AD1B74B-C47D-4A58-A848-7FE4B09A9E04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE2D497D-0828-4C04-8251-1D82AEC75610}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE2D497D-0828-4C04-8251-1D82AEC75610}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE2D497D-0828-4C04-8251-1D82AEC75610}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE2D497D-0828-4C04-8251-1D82AEC75610}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FDCE3F5-2568-4EA4-A7B6-072D0FE775ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FDCE3F5-2568-4EA4-A7B6-072D0FE775ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FDCE3F5-2568-4EA4-A7B6-072D0FE775ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FDCE3F5-2568-4EA4-A7B6-072D0FE775ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49110ACE-0A01-4215-944B-D8D1CF7E5AE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49110ACE-0A01-4215-944B-D8D1CF7E5AE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49110ACE-0A01-4215-944B-D8D1CF7E5AE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49110ACE-0A01-4215-944B-D8D1CF7E5AE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97BE071A-278E-452F-9257-A8482A6EE5A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97BE071A-278E-452F-9257-A8482A6EE5A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97BE071A-278E-452F-9257-A8482A6EE5A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97BE071A-278E-452F-9257-A8482A6EE5A3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C0B3B64E-5E95-44F7-A53D-2E31687F55A5}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>0.0.0.5-alpha</Version>
+    <Authors>Evan Verney-Fink</Authors>
+    <Company>Triskel</Company>
+    <Description>Adds the ability to use Azure FileStorage as a backing file system in an MCMA application</Description>
+    <PackageProjectUrl>https://github.com/evanverneyfink/MCMA</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/evanverneyfink/MCMA</RepositoryUrl>
+    <RepositoryType>GitHub</RepositoryType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Mcma.Core" Version="0.0.0.2-alpha" />
+    <PackageReference Include="Mcma.Server" Version="0.0.0.4-alpha" />
+    <PackageReference Include="WindowsAzure.Storage" Version="9.2.0" />
+  </ItemGroup>
+
+</Project>

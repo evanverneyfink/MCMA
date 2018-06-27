@@ -2,6 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>0.0.0.2-alpha</Version>
+    <Authors>Evan Verney-Fink</Authors>
+    <Company>Triskel</Company>
+    <Description>Provides JSON serialization functionality for the MCMA resource data model</Description>
+    <PackageProjectUrl>https://github.com/evanverneyfink/MCMA</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/evanverneyfink/MCMA</RepositoryUrl>
+    <RepositoryType>GitHub</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>

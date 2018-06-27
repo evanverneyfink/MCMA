@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Amazon.S3;
 using Amazon.S3.Model;
-using Mcma.Aws.S3;
+using Mcma.Extensions.Files.S3;
 using Mcma.Core.Model;
 using Mcma.Services.Ame.MediaInfo;
 using Microsoft.Extensions.Options;

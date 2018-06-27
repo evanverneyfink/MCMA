@@ -1,6 +1,5 @@
-using Mcma.Aws.DynamoDb;
+using Mcma.Extensions.Repositories.DynamoDb;
 using Mcma.Server;
-using Mcma.Server.Api;
 using Mcma.Server.Files;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

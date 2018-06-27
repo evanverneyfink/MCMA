@@ -80,7 +80,7 @@ namespace Mcma.Services.Ame.MediaInfo
         {
             var output = new JObject
             {
-                ["@context"] = MediaInfoContexts.Default,
+                //["@context"] = MediaInfoContexts.Default,
                 ["@type"] = "ebucore:BMEssence",
                 ["ebucore:hasVideoFormat"] = ExtractMetadata(input,
                                                              "ebucore:ebuCoreMain/ebucore:coreMetadata/0/ebucore:format/0/ebucore:videoFormat/0/@videoFormatName"),

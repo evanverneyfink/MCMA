@@ -26,8 +26,6 @@ namespace Mcma.Aws.Lambda
                 // build worker service
                 var serviceBuilder =
                     McmaAwsServiceBuilder.Create()
-                                         .WithDynamoDbRepository()
-                                         .WithS3FileStorage()
                                          .With(lambdaContext);
 
                 configure?.Invoke(serviceBuilder);

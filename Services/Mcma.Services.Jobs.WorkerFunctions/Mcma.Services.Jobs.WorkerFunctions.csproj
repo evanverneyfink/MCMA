@@ -2,11 +2,20 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>0.0.0.4-alpha</Version>
+    <Authors>Evan Verney-Fink</Authors>
+    <Company>Triskel</Company>
+    <Description>Library for running worker functions as part of an MCMA cloud service</Description>
+    <PackageProjectUrl>https://github.com/evanverneyfink/MCMA</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/evanverneyfink/MCMA</RepositoryUrl>
+    <RepositoryType>GitHub</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Core\Mcma.Core\Mcma.Core.csproj" />
-    <ProjectReference Include="..\..\Core\Mcma.Server\Mcma.Server.csproj" />
+    <PackageReference Include="Mcma.Core" Version="0.0.0.2-alpha" />
+    <PackageReference Include="Mcma.Server" Version="0.0.0.4-alpha" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.1.1" />
   </ItemGroup>
 
   <ItemGroup>

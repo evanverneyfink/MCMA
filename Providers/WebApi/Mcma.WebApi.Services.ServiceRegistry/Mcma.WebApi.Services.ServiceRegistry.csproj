@@ -13,15 +13,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Mcma.Core" Version="0.0.0.2-alpha" />
+    <PackageReference Include="Mcma.Extensions.Repositories.DynamoDb" Version="0.0.0.4-alpha" />
+    <PackageReference Include="Mcma.Server" Version="0.0.0.4-alpha" />
+    <PackageReference Include="Mcma.Services.ServiceRegistry" Version="0.0.0.4-alpha" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Aws\Mcma.Aws\Mcma.Aws.csproj" />
-    <ProjectReference Include="..\..\..\Core\Mcma.Core\Mcma.Core.csproj" />
-    <ProjectReference Include="..\..\..\Services\Mcma.Server.LocalDb\Mcma.Server.LiteDb.csproj" />
-    <ProjectReference Include="..\..\..\Core\Mcma.Server\Mcma.Server.csproj" />
-    <ProjectReference Include="..\..\..\Services\Mcma.Services.ServiceRegistry\Mcma.Services.ServiceRegistry.csproj" />
     <ProjectReference Include="..\Mcma.WebApi\Mcma.WebApi.csproj" />
   </ItemGroup>
 

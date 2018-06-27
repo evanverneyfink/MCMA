@@ -1,6 +1,4 @@
 using System;
-using Mcma.Aws.DynamoDb;
-using Mcma.Aws.S3;
 using Mcma.Core.Serialization;
 using Mcma.Server;
 using Mcma.Server.Api;
@@ -17,16 +15,16 @@ namespace Mcma.Aws.ServiceBuilding
         /// <summary>
         /// Instantiates a <see cref="McmaAwsServiceBuilder"/>
         /// </summary>
-        /// <param name="serviceCollection"></param>
-        private McmaAwsServiceBuilder(IServiceCollection serviceCollection)
+        /// <param name="services"></param>
+        private McmaAwsServiceBuilder(IServiceCollection services)
         {
-            ServiceCollection = serviceCollection;
+            Services = services;
         }
 
         /// <summary>
         /// Gets the underlying service collection
         /// </summary>
-        private IServiceCollection ServiceCollection { get; }
+        public IServiceCollection Services { get; }
 
         /// <summary>
         /// Creates a <see cref="McmaAwsServiceBuilder"/>
@@ -40,26 +38,6 @@ namespace Mcma.Aws.ServiceBuilding
         }
 
         /// <summary>
-        /// Adds DynamoDB as the repository for the service
-        /// </summary>
-        /// <returns></returns>
-        public McmaAwsServiceBuilder WithDynamoDbRepository()
-        {
-            ServiceCollection.AddDynamoDbMcmaRepository();
-            return this;
-        }
-
-        /// <summary>
-        /// Adds S3 file storage for the service
-        /// </summary>
-        /// <returns></returns>
-        public McmaAwsServiceBuilder WithS3FileStorage()
-        {
-            ServiceCollection.AddS3FileStorage();
-            return this;
-        }
-
-        /// <summary>
         /// Adds an object to the service collection
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -67,7 +45,7 @@ namespace Mcma.Aws.ServiceBuilding
         /// <returns></returns>
         public McmaAwsServiceBuilder With<T>(T obj) where T : class
         {
-            ServiceCollection.AddScoped(x => obj);
+            Services.AddScoped(x => obj);
             return this;
         }
 
@@ -78,7 +56,7 @@ namespace Mcma.Aws.ServiceBuilding
         /// <returns></returns>
         public McmaAwsServiceBuilder With<T>() where T : class
         {
-            ServiceCollection.AddScoped<T>();
+            Services.AddScoped<T>();
             return this;
         }
 
@@ -92,7 +70,7 @@ namespace Mcma.Aws.ServiceBuilding
             where TRegistered : class
             where TImplementation : class, TRegistered
         {
-            ServiceCollection.AddScoped<TRegistered, TImplementation>();
+            Services.AddScoped<TRegistered, TImplementation>();
             return this;
         }
 
@@ -102,7 +80,7 @@ namespace Mcma.Aws.ServiceBuilding
         /// <returns></returns>
         public McmaAwsServiceBuilder With(Action<IServiceCollection> register)
         {
-            register(ServiceCollection);
+            register(Services);
             return this;
         }
 
@@ -114,15 +92,15 @@ namespace Mcma.Aws.ServiceBuilding
             where TRequestContext : class, IRequest
             where TResourceRegistration : IResourceHandlerRegistration, new()
         {
-            ServiceCollection
+            Services
                 .AddSingleton<ILogger, ConsoleLogger>()
                 .AddMcmaResourceHandling<TResourceRegistration>()
                 .AddMcmaServerDefaultApi()
                 .AddScoped<IRequest, TRequestContext>();
 
-            addAdditionalServices?.Invoke(ServiceCollection);
+            addAdditionalServices?.Invoke(Services);
 
-            var serviceProvider = ServiceCollection.BuildServiceProvider();
+            var serviceProvider = Services.BuildServiceProvider();
 
             return new McmaAwsResourceApi(serviceProvider.CreateScope(),
                                           serviceProvider.GetRequiredService<ILogger>(),
@@ -136,13 +114,13 @@ namespace Mcma.Aws.ServiceBuilding
         public IMcmaAwsWorkerService BuildWorkerSevice<T>(Action<IServiceCollection> addAdditionalServices = null)
             where T : class, IWorker
         {
-            ServiceCollection
+            Services
                 .AddSingleton<ILogger, ConsoleLogger>()
                 .AddScoped<IWorker, T>();
 
-            addAdditionalServices?.Invoke(ServiceCollection);
+            addAdditionalServices?.Invoke(Services);
 
-            var serviceProvider = ServiceCollection.BuildServiceProvider();
+            var serviceProvider = Services.BuildServiceProvider();
 
             return new McmaAwsWorkerService(serviceProvider.CreateScope(),
                                             serviceProvider.GetRequiredService<ILogger>(),

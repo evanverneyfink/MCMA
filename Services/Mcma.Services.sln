@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2026
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mcma.Services.Jobs.WorkerFunctions", "Mcma.Services.Jobs.WorkerFunctions\Mcma.Services.Jobs.WorkerFunctions.csproj", "{95AA04FE-9E8C-4DC3-BF4B-B893E3E67AA5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mcma.Services.ServiceRegistry", "Mcma.Services.ServiceRegistry\Mcma.Services.ServiceRegistry.csproj", "{24212DC0-E4D8-45DD-A681-CE5BBC66B8B2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mcma.Services.Jobs.JobProcessor", "Mcma.Services.Jobs.JobProcessor\Mcma.Services.Jobs.JobProcessor.csproj", "{24DADD3C-4784-44A6-AA7B-9751E5147AC0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mcma.Services.Jobs.JobRepository", "Mcma.Services.Jobs.JobRepository\Mcma.Services.Jobs.JobRepository.csproj", "{2DB6A5B6-0705-41F6-A935-B0119699BE48}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mcma.Services.Ame.MediaInfo", "Mcma.Services.Ame.MediaInfo\Mcma.Services.Ame.MediaInfo.csproj", "{AEBD440C-4D67-48BA-A7ED-E2D930A3B69C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{95AA04FE-9E8C-4DC3-BF4B-B893E3E67AA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95AA04FE-9E8C-4DC3-BF4B-B893E3E67AA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95AA04FE-9E8C-4DC3-BF4B-B893E3E67AA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95AA04FE-9E8C-4DC3-BF4B-B893E3E67AA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24212DC0-E4D8-45DD-A681-CE5BBC66B8B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24212DC0-E4D8-45DD-A681-CE5BBC66B8B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24212DC0-E4D8-45DD-A681-CE5BBC66B8B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24212DC0-E4D8-45DD-A681-CE5BBC66B8B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24DADD3C-4784-44A6-AA7B-9751E5147AC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24DADD3C-4784-44A6-AA7B-9751E5147AC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24DADD3C-4784-44A6-AA7B-9751E5147AC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24DADD3C-4784-44A6-AA7B-9751E5147AC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DB6A5B6-0705-41F6-A935-B0119699BE48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DB6A5B6-0705-41F6-A935-B0119699BE48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DB6A5B6-0705-41F6-A935-B0119699BE48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DB6A5B6-0705-41F6-A935-B0119699BE48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEBD440C-4D67-48BA-A7ED-E2D930A3B69C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEBD440C-4D67-48BA-A7ED-E2D930A3B69C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEBD440C-4D67-48BA-A7ED-E2D930A3B69C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEBD440C-4D67-48BA-A7ED-E2D930A3B69C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {023E8C73-E516-47A5-B0B0-3F05D5F0697E}
+	EndGlobalSection
+EndGlobal

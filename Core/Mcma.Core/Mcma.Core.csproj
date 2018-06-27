@@ -2,6 +2,18 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>Mcma.Core</PackageId>
+    <Authors>Evan Verney-Fink</Authors>
+    <Company>Triskel</Company>
+    <Product />
+    <AssemblyVersion>0.0.0.2</AssemblyVersion>
+    <FileVersion>0.0.0.2</FileVersion>
+    <PackageProjectUrl>https://github.com/evanverneyfink/MCMA</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/evanverneyfink/MCMA</RepositoryUrl>
+    <RepositoryType>GitHub</RepositoryType>
+    <Version>0.0.0.2-alpha</Version>
+    <Description>Core data and serialization model for MCMA apps.</Description>
   </PropertyGroup>
 
   <ItemGroup>

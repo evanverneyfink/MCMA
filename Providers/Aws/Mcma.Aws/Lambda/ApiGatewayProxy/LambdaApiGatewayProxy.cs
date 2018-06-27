@@ -29,8 +29,6 @@ namespace Mcma.Aws.Lambda.ApiGatewayProxy
 
                 // build service
                 var serviceBuilder = McmaAwsServiceBuilder.Create(opts => opts.AddProvider(new StageVariableProvider(request)))
-                                               .WithDynamoDbRepository()
-                                               .WithS3FileStorage()
                                                .With(lambdaContext);
 
                 configure?.Invoke(serviceBuilder);

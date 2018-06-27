@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2026
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mcma.Azure", "Mcma.Azure\Mcma.Azure.csproj", "{5AE62B2E-03B7-4CD7-B365-84309CCAB5C6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mcma.Azure.Services.ServiceRegistry", "Mcma.Azure.Services.ServiceRegistry\Mcma.Azure.Services.ServiceRegistry.csproj", "{FBA52866-568C-4E44-836C-12FEF1DAD2EE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mcma.Azure.Services.Jobs.JobRepository", "Mcma.Azure.Services.Jobs.JobRepository\Mcma.Azure.Services.Jobs.JobRepository.csproj", "{80E340DA-215D-4E1B-9B09-CD50293C4B43}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mcma.Azure.Services.Jobs.JobProcessor", "Mcma.Azure.Services.Jobs.JobProcessor\Mcma.Azure.Services.Jobs.JobProcessor.csproj", "{0FF8FB2E-48EF-4133-B02F-E1170A1F4EB4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mcma.Azure.Services.Ame.MediaInfo", "Mcma.Azure.Services.Ame.MediaInfo\Mcma.Azure.Services.Ame.MediaInfo.csproj", "{429E82BC-1A9B-49D4-87F7-7759DC09C76E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5AE62B2E-03B7-4CD7-B365-84309CCAB5C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5AE62B2E-03B7-4CD7-B365-84309CCAB5C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5AE62B2E-03B7-4CD7-B365-84309CCAB5C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5AE62B2E-03B7-4CD7-B365-84309CCAB5C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBA52866-568C-4E44-836C-12FEF1DAD2EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBA52866-568C-4E44-836C-12FEF1DAD2EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBA52866-568C-4E44-836C-12FEF1DAD2EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBA52866-568C-4E44-836C-12FEF1DAD2EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80E340DA-215D-4E1B-9B09-CD50293C4B43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80E340DA-215D-4E1B-9B09-CD50293C4B43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80E340DA-215D-4E1B-9B09-CD50293C4B43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80E340DA-215D-4E1B-9B09-CD50293C4B43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FF8FB2E-48EF-4133-B02F-E1170A1F4EB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FF8FB2E-48EF-4133-B02F-E1170A1F4EB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FF8FB2E-48EF-4133-B02F-E1170A1F4EB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FF8FB2E-48EF-4133-B02F-E1170A1F4EB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{429E82BC-1A9B-49D4-87F7-7759DC09C76E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{429E82BC-1A9B-49D4-87F7-7759DC09C76E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{429E82BC-1A9B-49D4-87F7-7759DC09C76E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{429E82BC-1A9B-49D4-87F7-7759DC09C76E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2B890B98-8D91-4DB0-A3C1-CED8D72CD215}
+	EndGlobalSection
+EndGlobal

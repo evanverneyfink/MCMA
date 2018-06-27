@@ -5,13 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Mcma.Core" Version="0.0.0.2-alpha" />
+    <PackageReference Include="Mcma.Extensions.Files.AzureFileStorage" Version="0.0.0.5-alpha" />
+    <PackageReference Include="Mcma.Extensions.Repositories.AzureTableStorage" Version="0.0.0.5-alpha" />
+    <PackageReference Include="Mcma.Server" Version="0.0.0.4-alpha" />
+    <PackageReference Include="Mcma.Services.Jobs.JobRepository" Version="0.0.0.4-alpha" />
     <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.Http" Version="3.0.0-beta5" />
     <PackageReference Include="WindowsAzure.Storage" Version="9.2.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Mcma.Azure\Mcma.Azure.csproj" />
-    <ProjectReference Include="..\..\..\Services\Mcma.Services.Jobs.JobRepository\Mcma.Services.Jobs.JobRepository.csproj" />
   </ItemGroup>
 
   <ItemGroup>

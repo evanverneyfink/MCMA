@@ -9,15 +9,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Mcma.Core" Version="0.0.0.2-alpha" />
+    <PackageReference Include="Mcma.Extensions.Repositories.LiteDb" Version="0.0.0.4-alpha" />
+    <PackageReference Include="Mcma.Server" Version="0.0.0.4-alpha" />
+    <PackageReference Include="Mcma.Services.Ame.MediaInfo" Version="0.0.0.4-alpha" />
+    <PackageReference Include="Mcma.Services.Jobs.WorkerFunctions" Version="0.0.0.4-alpha" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Core\Mcma.Core\Mcma.Core.csproj" />
-    <ProjectReference Include="..\..\..\Core\Mcma.Json\Mcma.Json.csproj" />
-    <ProjectReference Include="..\..\..\Services\Mcma.Server.LocalDb\Mcma.Server.LiteDb.csproj" />
-    <ProjectReference Include="..\..\..\Core\Mcma.Server\Mcma.Server.csproj" />
-    <ProjectReference Include="..\..\..\Services\Mcma.Services.Ame.MediaInfo\Mcma.Services.Ame.MediaInfo.csproj" />
     <ProjectReference Include="..\Mcma.WebApi\Mcma.WebApi.csproj" />
   </ItemGroup>
 

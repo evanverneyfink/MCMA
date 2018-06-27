@@ -5,6 +5,8 @@ using Amazon.Lambda.Core;
 using Amazon.Lambda.APIGatewayEvents;
 using Mcma.Aws.Lambda;
 using Mcma.Aws.Lambda.ApiGatewayProxy;
+using Mcma.Extensions.Files.S3;
+using Mcma.Extensions.Repositories.DynamoDb;
 using Mcma.Services.Ame.MediaInfo;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
@@ -20,9 +22,15 @@ namespace Mcma.Aws.Services.Ame.MediaInfo
         /// <param name="request"></param>
         /// <param name="context"></param>
         /// <returns>The list of blogs</returns>
-        public async Task<APIGatewayProxyResponse> JobApi(APIGatewayProxyRequest request, ILambdaContext context)
+        public Task<APIGatewayProxyResponse> JobApi(APIGatewayProxyRequest request, ILambdaContext context)
         {
-            return await LambdaApiGatewayProxy.Handle<LambdaWorkerFunctionInvocation>(request, context);
+            return LambdaApiGatewayProxy.Handle<LambdaWorkerFunctionInvocation>(
+                request,
+                context,
+                builder =>
+                    builder.Services
+                           .AddDynamoDbMcmaRepository()
+                           .AddS3FileStorage());
         }
 
         /// <summary>
@@ -31,9 +39,19 @@ namespace Mcma.Aws.Services.Ame.MediaInfo
         /// <param name="input"></param>
         /// <param name="context"></param>
         /// <returns></returns>
-        public async Task Worker(Stream input, ILambdaContext context)
+        public Task Worker(Stream input, ILambdaContext context)
         {
-            await LambdaWorker.Handle<MediaInfoWorker>(input, context, serviceBuilder => serviceBuilder.AddAwsMediaInfo());
+            return LambdaWorker.Handle<MediaInfoWorker>(
+                input,
+                context,
+                serviceBuilder =>
+                {
+                    serviceBuilder.Services
+                                  .AddDynamoDbMcmaRepository()
+                                  .AddS3FileStorage();
+
+                    serviceBuilder.AddAwsMediaInfo();
+                });
         }
     }
 }

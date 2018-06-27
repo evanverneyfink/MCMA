@@ -4,18 +4,25 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Mcma.Server</AssemblyName>
     <RootNamespace>Mcma.Server</RootNamespace>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>0.0.0.4-alpha</Version>
+    <Authors>Evan Verney-Fink</Authors>
+    <Company>Triskel</Company>
+    <Description>Base functionality and interfaces required for creating an MCMA service</Description>
+    <PackageProjectUrl>https://github.com/evanverneyfink/MCMA</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/evanverneyfink/MCMA</RepositoryUrl>
+    <RepositoryType>GitHub</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.1.1" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="Pluralize.NET" Version="0.1.84" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Mcma.Core\Mcma.Core.csproj" />
     <ProjectReference Include="..\Mcma.Json\Mcma.Json.csproj" />
-    <ProjectReference Include="..\..\3rd Party\JsonLd\JsonLd.csproj" />
-    <ProjectReference Include="..\..\3rd Party\Pluralize.NET\Pluralize.NET.csproj" />
   </ItemGroup>
 
   <ItemGroup>

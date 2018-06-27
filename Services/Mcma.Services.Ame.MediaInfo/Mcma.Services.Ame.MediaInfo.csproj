@@ -2,15 +2,27 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>0.0.0.4-alpha</Version>
+    <Authors>Evan Verney-Fink</Authors>
+    <Company>Triskel</Company>
+    <Description>Library for running MediaInfo as part of an MCMA cloud service</Description>
+    <PackageProjectUrl>https://github.com/evanverneyfink/MCMA</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/evanverneyfink/MCMA</RepositoryUrl>
+    <RepositoryType>GitHub</RepositoryType>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="MediaInfoContexts.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Mcma.Core" Version="0.0.0.2-alpha" />
+    <PackageReference Include="Mcma.Server" Version="0.0.0.4-alpha" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.1.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Core\Mcma.Core\Mcma.Core.csproj" />
-    <ProjectReference Include="..\..\Core\Mcma.Server\Mcma.Server.csproj" />
     <ProjectReference Include="..\Mcma.Services.Jobs.WorkerFunctions\Mcma.Services.Jobs.WorkerFunctions.csproj" />
   </ItemGroup>
 
