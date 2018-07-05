@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>Mcma.Aws.Services.LambdaTemplate</id>
+    <version>0.0.0.8-alpha</version>
+    <authors>Evan Verney-Fink</authors>
+    <owners>Evan Verney-Fink</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <projectUrl>https://github.com/evanverneyfink/MCMA</projectUrl>
+    <description>Template for building MCMA services using AWS Lambda</description>
+    <repository type="GitHub" url="https://github.com/evanverneyfink/MCMA" />
+    <packageTypes>
+      <packageType name="Template" />
+    </packageTypes>
+  </metadata>
+</package>

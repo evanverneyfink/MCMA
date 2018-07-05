@@ -1,0 +1,9 @@
+{
+    "$schema": "http://json.schemastore.org/template",
+    "author": "Evan Verney-Fink",
+    "classifications": [ "MCMA", "AWS", "Lambda" ],
+    "identity": "Mcma.Aws.Services.LambdaTemplate",
+    "name": "MCMA AWS Lambda Service",
+    "shortName": "mcmaawslambda",
+    "sourceName": "McmaServiceTemplate"
+  }

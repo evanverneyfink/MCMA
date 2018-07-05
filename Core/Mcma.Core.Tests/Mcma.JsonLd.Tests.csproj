@@ -95,14 +95,6 @@
       <Project>{8928d390-febc-4b44-8653-5432693de53c}</Project>
       <Name>Mcma.JsonLd</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\3rd Party\JsonLd\JsonLd.csproj">
-      <Project>{f725ca7a-6c95-4e38-ad12-0dde8b8dd691}</Project>
-      <Name>JsonLd</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\3rd Party\Pluralize.NET\Pluralize.NET.csproj">
-      <Project>{70695f88-bab6-4afa-94f5-81cdcd2bb2ee}</Project>
-      <Name>Pluralize.NET</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

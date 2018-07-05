@@ -1,4 +1,6 @@
+using System;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using ILogger = Mcma.Server.ILogger;
 
 namespace Mcma.Azure
@@ -9,9 +11,11 @@ namespace Mcma.Azure
         /// Instantiates a <see cref="MicrosoftLoggerWrapper"/>
         /// </summary>
         /// <param name="loggerFactory"></param>
-        public MicrosoftLoggerWrapper(ILoggerFactory loggerFactory)
+        /// <param name="options"></param>
+        public MicrosoftLoggerWrapper(ILoggerFactory loggerFactory, IOptions<LoggerOptions> options)
         {
             Logger = loggerFactory.CreateLogger("Function.MicrosoftLoggerWrapper.User");
+            Options = options.Value ?? new LoggerOptions();
         }
 
         /// <summary>
@@ -20,12 +24,23 @@ namespace Mcma.Azure
         private Microsoft.Extensions.Logging.ILogger Logger { get; }
 
         /// <summary>
+        /// Gets the options for the logger
+        /// </summary>
+        private LoggerOptions Options { get; }
+
+        /// <summary>
         /// Logs a message using the specified log level
         /// </summary>
         /// <param name="logLevel"></param>
         /// <param name="messageTemplate"></param>
         /// <param name="parameters"></param>
-        private void Log(LogLevel logLevel, string messageTemplate, params object[] parameters) => Logger.Log(logLevel, new EventId(0), messageTemplate, parameters);
+        private void Log(LogLevel logLevel, string messageTemplate, params object[] parameters)
+        {
+            Logger.Log(logLevel, new EventId(0), messageTemplate, parameters);
+
+            if (Options.LogToConsole)
+                Console.WriteLine($"[{logLevel}]: {string.Format(messageTemplate, parameters)}");
+        }
 
         /// <summary>
         /// Logs a debug message

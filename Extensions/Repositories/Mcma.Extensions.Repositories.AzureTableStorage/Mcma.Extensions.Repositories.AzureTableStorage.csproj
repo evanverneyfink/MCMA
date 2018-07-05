@@ -6,7 +6,7 @@
     <PackageProjectUrl>https://github.com/evanverneyfink/MCMA</PackageProjectUrl>
     <RepositoryUrl>https://github.com/evanverneyfink/MCMA</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
-    <Version>0.0.0.5-alpha</Version>
+    <Version>0.0.0.6-alpha</Version>
     <Authors>Evan Verney-Fink</Authors>
     <Company>Triskel</Company>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -16,7 +16,11 @@
     <PackageReference Include="Mcma.Core" Version="0.0.0.2-alpha" />
     <PackageReference Include="Mcma.Server" Version="0.0.0.4-alpha" />
     <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
-    <PackageReference Include="WindowsAzure.Storage" Version="9.2.0" />
+    <PackageReference Include="WindowsAzure.Storage" Version="8.6.0" />
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy /e /y /r &quot;$(TargetPath)&quot; &quot;%USERPROFILE%\.nuget\packages\$(ProjectName)\0.0.0.6-alpha\lib\netstandard2.0&quot;" />
+  </Target>
 
 </Project>

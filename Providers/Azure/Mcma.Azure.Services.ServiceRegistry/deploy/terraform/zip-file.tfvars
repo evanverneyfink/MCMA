@@ -1,1 +1,1 @@
-restApiZipFile = "../../bin/Release/netstandard2.0/azure/function_20180619181008.zip"
+restApiZipFile = "../../bin/Release/FunctionPackages/function_20180702180954.zip"

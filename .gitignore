@@ -262,4 +262,8 @@ __pycache__/
 
 # Variables 
 **/*private.tfvars
-/Mcma.WebApi.Services.ServiceRegistry/appSettings.json
+!**/.template/**/*private.tfvars
+
+# Build
+**/.gradle/
+**/.terraform/

@@ -1,0 +1,9 @@
+{
+    "$schema": "http://json.schemastore.org/template",
+    "author": "Evan Verney-Fink",
+    "classifications": [ "MCMA", "Azure", "Functions" ],
+    "identity": "Mcma.Azure.Services.FunctionTemplate",
+    "name": "MCMA Azure Function Service",
+    "shortName": "mcmaazfunc",
+    "sourceName": "McmaServiceTemplate"
+  }

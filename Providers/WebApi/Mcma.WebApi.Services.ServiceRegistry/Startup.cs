@@ -1,4 +1,4 @@
-using Mcma.Extensions.Repositories.DynamoDb;
+using Mcma.Extensions.Repositories.LocalDb;
 using Mcma.Server;
 using Mcma.Server.Files;
 using Microsoft.AspNetCore.Builder;
@@ -32,7 +32,7 @@ namespace Mcma.WebApi.Services.ServiceRegistry
         {
             services.AddConsoleLogger()
                     .AddLocalFileStorage()
-                    .AddDynamoDbMcmaRepository(opts => Configuration.Bind("AWS", opts))
+                    .AddLiteDb()
                     .AddMcmaWebApi<Mcma.Services.ServiceRegistry.ServiceRegistry>(Configuration);
         }
 

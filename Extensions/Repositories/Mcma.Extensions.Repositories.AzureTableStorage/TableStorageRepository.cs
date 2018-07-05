@@ -26,7 +26,7 @@ namespace Mcma.Extensions.Repositories.AzureTableStorage
         }
 
         /// <summary>
-        /// Gets the DynamoDB client
+        /// Gets the Azure Table Storage client
         /// </summary>
         private CloudTableClient TableClient { get; }
 
@@ -41,7 +41,7 @@ namespace Mcma.Extensions.Repositories.AzureTableStorage
         private IAzureStorageTableConfigProvider TableConfigProvider { get; }
 
         /// <summary>
-        /// Gets the DynamoDB table
+        /// Gets the Azure Table Storage table
         /// </summary>
         private async Task<CloudTable> Table(Type type)
         {
@@ -49,7 +49,7 @@ namespace Mcma.Extensions.Repositories.AzureTableStorage
         }
         
         /// <summary>
-        /// Gets the DynamoDB table
+        /// Gets the Azure Table Storage table
         /// </summary>
         /// <param name="typeName"></param>
         /// <returns></returns>
@@ -59,7 +59,7 @@ namespace Mcma.Extensions.Repositories.AzureTableStorage
         }
 
         /// <summary>
-        /// Gets the DynamoDB table
+        /// Gets the Azure Table Storage table
         /// </summary>
         /// <param name="tableName"></param>
         /// <returns></returns>
@@ -75,7 +75,7 @@ namespace Mcma.Extensions.Repositories.AzureTableStorage
                     if (!TableConfigProvider.CreateIfNotExists)
                         throw new Exception($"Table {tableName} does not exist in Azure Table Storage, and the app is not configured to create it if it does not exist.");
 
-                    Logger.Info("Table '{0}' does not exist in DynamoDB. Creating it now...", tableName);
+                    Logger.Info("Table '{0}' does not exist in Azure Table Storage. Creating it now...", tableName);
 
                     await cloudTable.CreateAsync();
                 }
@@ -84,7 +84,7 @@ namespace Mcma.Extensions.Repositories.AzureTableStorage
             }
             catch (Exception exception)
             {
-                Logger.Error($"An error occurred loading the DynamoDB table for type {tableName}.", exception);
+                Logger.Error("An error occurred loading the Azure Table Storage table for type {0}.\r\nException: {1}.", tableName, exception);
                 throw;
             }
         }
@@ -96,7 +96,12 @@ namespace Mcma.Extensions.Repositories.AzureTableStorage
         /// <param name="typeName"></param>
         /// <returns></returns>
         private string TypeCondition(string tableName, string typeName)
-            => TableQuery.GenerateFilterCondition(TableConfigProvider.GetPartitionKeyFieldName(tableName), QueryComparisons.Equal, typeName);
+        {
+            Logger.Debug("Getting type condition for table {0} and type {1}...", tableName, typeName);
+            var condition = TableQuery.GenerateFilterCondition(TableConfigProvider.GetPartitionKeyFieldName(tableName), QueryComparisons.Equal, typeName);
+            Logger.Debug("Type condition for table {0} and type {1}: {2}", tableName, typeName, condition);
+            return condition;
+        }
 
         /// <summary>
         /// Gets a resource by its type and ID
@@ -154,6 +159,8 @@ namespace Mcma.Extensions.Repositories.AzureTableStorage
         {
             var table = await Table(typeof(T));
 
+            parameters = parameters ?? new Dictionary<string, string>();
+
             var query = new TableQuery().Where(
                 parameters.Aggregate(
                     TypeCondition(table.Name, typeof(T).Name),
@@ -205,7 +212,7 @@ namespace Mcma.Extensions.Repositories.AzureTableStorage
         }
 
         /// <summary>
-        /// Creates or updates record in DynamoDB
+        /// Creates or updates record in Azure Table Storage
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="resource"></param>
@@ -223,7 +230,7 @@ namespace Mcma.Extensions.Repositories.AzureTableStorage
         }
 
         /// <summary>
-        /// Creates or updates record in DynamoDB
+        /// Creates or updates record in Azure Table Storage
         /// </summary>
         /// <param name="resource"></param>
         /// <returns></returns>

@@ -22,7 +22,7 @@ namespace Mcma.Extensions.Repositories.AzureTableStorage
         /// <summary>
         /// Gets flag indicating if tables should be created if they don't exist
         /// </summary>
-        public bool CreateIfNotExists => false;
+        public bool CreateIfNotExists => true;
 
         /// <summary>
         /// Gets the table name for a type
