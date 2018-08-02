@@ -25,6 +25,11 @@ namespace Mcma.WebApi
         public string Name => "WebApiConfig";
 
         /// <summary>
+        /// Gets the priority of the config value provider
+        /// </summary>
+        public int Priority => 100;
+
+        /// <summary>
         /// Gets flag indicating if environment variables can be set with this provider
         /// </summary>
         public bool CanSet => true;

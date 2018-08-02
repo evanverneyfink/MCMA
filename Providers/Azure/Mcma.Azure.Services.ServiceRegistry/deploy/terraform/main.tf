@@ -105,6 +105,13 @@ resource "azurerm_app_service_plan" "service_plan" {
   }
 }
 
+resource "azurerm_application_insights" "app_insights" {
+  name                = "${local.env_composite_name_lower_only}function"
+  resource_group_name = "${azurerm_resource_group.resource_group.name}"
+  location            = "${azurerm_resource_group.resource_group.location}"
+  application_type    = "Web"
+}
+
 resource "azurerm_function_app" "api_function" {
   name                = "${local.env_composite_name_lower_only}function"
   resource_group_name = "${azurerm_resource_group.resource_group.name}"
@@ -115,6 +122,11 @@ resource "azurerm_function_app" "api_function" {
   version                   = "beta"
 
   app_settings {
-    WEBSITE_RUN_FROM_ZIP = "${azurerm_storage_blob.uploaded_zip.url}${data.azurerm_storage_account_sas.storage_acct_sas.sas}"
+    WEBSITE_RUN_FROM_ZIP           = "${azurerm_storage_blob.uploaded_zip.url}${data.azurerm_storage_account_sas.storage_acct_sas.sas}"
+    APPINSIGHTS_INSTRUMENTATIONKEY = "${azurerm_application_insights.app_insights.instrumentation_key}"
+    RootPath                       = "api/ResourceApi"
+    StorageAccountName             = "${azurerm_storage_account.storage_account.name}"
+    StorageAccountKeyValue         = "${azurerm_storage_account.storage_account.primary_access_key}"
+    TableName                      = "${var.serviceName}"
   }
 }

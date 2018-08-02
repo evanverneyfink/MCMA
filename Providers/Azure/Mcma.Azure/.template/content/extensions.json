@@ -1,7 +1,0 @@
-{
-  "extensions": [
-    {
-      "TypeName": "Mcma.Azure.DependencyInjection.DependencyInjectionExtension`1[[McmaServiceTemplate.Startup, McmaServiceTemplate]], Mcma.Azure"
-    }
-  ]
-}

@@ -1,0 +1,3 @@
+bucket = "mcma-dotnet-tfstate"
+key = "McmaServiceTemplate.tfstate"
+region = "us-east-1"

@@ -10,9 +10,7 @@ namespace Mcma.Extensions.Repositories.AzureTableStorage
         {
             if (configureOptions != null)
                 services.Configure(configureOptions);
-
             
-
             return
                 services.AddScoped<IAzureStorageTableConfigProvider, DefaultAzureStorageTableConfigProvider>()
                         .AddScoped<IRepository, TableStorageRepository>();

@@ -1,0 +1,17 @@
+{
+  "bindings": [
+    {
+      "type": "httpTrigger",
+      "name": "request",
+      "authLevel": "function",
+      "route": "{*all}" 
+    },
+    {
+      "type": "inject",
+      "name": "resourceApi" 
+    }
+  ],
+  "disabled": false,
+  "scriptFile": "../bin/McmaServiceTemplate.dll",
+  "entryPoint": "McmaServiceTemplate.Functions.ResourceApi"
+}

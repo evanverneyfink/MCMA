@@ -2,22 +2,6 @@ task setVars {
     project.ext.set("config", project.hasProperty("config") ? config : "Release")
 }
 
-task initFunction {
-    String projectName = fileTree("..").matching {
-        include "*.csproj"
-    }.getFiles().iterator().next().getName().replace(".csproj", "");
-
-    Set<File> filesWithTokens = fileTree("..").matching {
-        include "**/function.json"
-        include "**/extensions.json"
-        include "**/*.backend"
-    }.getFiles();
-
-    filesWithTokens.each {
-        it.setText(it.text.replace("\$(ProjectName)", projectName));
-    }
-}
-
 task dotNetClean(type: Exec) {
     commandLine "cmd", "/c", "dotnet"
     args "clean", "..", "-c=${project.config}"
@@ -30,7 +14,6 @@ task dotNetBuild(type: Exec) {
 
     ext.version = new Date().format("yyyyMMddHHmmss")
 }
-dotNetBuild.dependsOn(initFunction);
 dotNetBuild.dependsOn(dotNetClean);
 
 task zipOutput(type: Zip) {
@@ -77,9 +60,9 @@ pack.dependsOn(setZipFunctionVar);
 task deploy {}
 deploy.dependsOn(terraformApply);
 
-task packageAndDeploy{}
-packageAndDeploy.dependsOn(pack);
-packageAndDeploy.finalizedBy(deploy);
+task packAndDeploy{}
+packAndDeploy.dependsOn(pack);
+packAndDeploy.finalizedBy(deploy);
 
 task debug {}
 debug.dependsOn(runLocalAzureFuncRuntime);

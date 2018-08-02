@@ -8,15 +8,18 @@ namespace Mcma.Server.Environment
         /// Instantiates a <see cref="DelegateEnvironmentVariableProvider"/>
         /// </summary>
         /// <param name="name"></param>
+        /// <param name="priority"></param>
         /// <param name="getter"></param>
         /// <param name="setter"></param>
         /// <param name="keyChecker"></param>
-        public DelegateEnvironmentVariableProvider(string name,
-                                                   Func<string, string> getter,
+        public DelegateEnvironmentVariableProvider(Func<string, string> getter,
                                                    Action<string, string> setter = null,
-                                                   Func<string, bool> keyChecker = null)
+                                                   Func<string, bool> keyChecker = null,
+                                                   string name = null,
+                                                   int priority = int.MaxValue - 1)
         {
             Name = name;
+            Priority = priority;
             Getter = getter;
             Setter = setter;
             KeyChecker = keyChecker;
@@ -41,6 +44,11 @@ namespace Mcma.Server.Environment
         /// Gets the name of the environment variable provider
         /// </summary>
         public string Name { get; }
+
+        /// <summary>
+        /// Gets the priority
+        /// </summary>
+        public int Priority { get; }
 
         /// <summary>
         /// Gets flag indicating if environment variables can be set with this provider

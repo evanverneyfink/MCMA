@@ -1,56 +1,37 @@
-task clean(type: Delete) {
-    delete "..\\bin\\Release\\netstandard2.0\\azure"
+import groovy.json.JsonSlurper
+import groovyx.net.http.FromServer
+import io.github.httpbuilderng.http.HttpTask
+
+plugins {
+  id "io.github.http-builder-ng.http-plugin" version "0.1.1"
 }
 
-task dotNetPublish(type: Exec) {
+task setVars {
+    project.ext.set("config", project.hasProperty("config") ? config : "Release")
+}
+
+task dotNetClean(type: Exec) {
     commandLine "cmd", "/c", "dotnet"
-    args "publish", "..", "-c=Release", "-o=.\\bin\\Release\\netstandard2.0\\azure\\function\\bin"
+    args "clean", "..", "-c=${project.config}"
+}
+dotNetClean.dependsOn(setVars);
+
+task dotNetBuild(type: Exec) {
+    commandLine "cmd", "/c", "dotnet"
+    args "build", "..", "-c=${project.config}"
 
     ext.version = new Date().format("yyyyMMddHHmmss")
 }
-dotNetPublish.dependsOn(clean);
-
-task copyDepsJson(type: Copy) {
-    from "..\\bin\\Release\\netstandard2.0\\azure\\function\\bin"
-    include "*.deps.json"
-    into "..\\bin\\Release\\netstandard2.0\\azure\\function"
-}
-copyDepsJson.dependsOn(dotNetPublish);
-
-task copyFunctionJson(type: Copy) {
-    from ".."
-    include "function.json"
-    into "..\\bin\\Release\\netstandard2.0\\azure\\function\\ResourceApi"
-}
-copyFunctionJson.dependsOn(dotNetPublish);
-
-task copyHostJson(type: Copy) {
-    from ".."
-    include "host.json"
-    into "..\\bin\\Release\\netstandard2.0\\azure\\function"
-}
-copyFunctionJson.dependsOn(dotNetPublish);
-
-task deleteJsonFilesFromBin(type: Delete) {
-    delete fileTree("..\\bin\\Release\\netstandard2.0\\azure\\function\\bin") {
-        include "*.deps.json"
-        include "function.json"
-        include "host.json"
-    }
-}
-deleteJsonFilesFromBin.dependsOn(copyDepsJson);
-deleteJsonFilesFromBin.dependsOn(copyFunctionJson);
-deleteJsonFilesFromBin.dependsOn(copyHostJson);
+dotNetBuild.dependsOn(dotNetClean);
 
 task zipOutput(type: Zip) {
-    archiveName = "function_" + dotNetPublish.ext.version + ".zip"
-    destinationDir = file("..\\bin\\Release\\netstandard2.0\\azure")
+    from "..\\bin\\${project.config}\\netstandard2.0"
+    destinationDir = file("..\\bin\\${project.config}\\FunctionPackages")
+    archiveName = "function_" + dotNetBuild.ext.version + ".zip"
 
-    from ("..\\bin\\Release\\netstandard2.0\\azure\\function")
-
-    ext.archiveTerraformPath = "../../bin/Release/netstandard2.0/azure/" + zipOutput.archiveName;
+    ext.archiveTerraformPath = "../../bin/${project.config}/FunctionPackages/" + zipOutput.archiveName;
 }
-zipOutput.dependsOn(deleteJsonFilesFromBin);
+zipOutput.dependsOn(dotNetBuild);
 
 task setZipFunctionVar {
     File zipVarFile = new File("terraform\\zip-file.tfvars");
@@ -60,7 +41,7 @@ setZipFunctionVar.dependsOn(zipOutput);
 
 task terraformInit(type: Exec) {
     commandLine "cmd", "/c", "terraform"
-    args "init", "-input=false", "-backend-config=backend.tf"
+    args "init", "-input=false", "-backend-config=s3.backend"
     workingDir "terraform"
 }
 
@@ -71,22 +52,78 @@ task terraformApply(type: Exec) {
 }
 terraformApply.dependsOn(terraformInit);
 
+task getTerraformOutput(type: Exec) {
+    commandLine "cmd", "/c", "terraform"
+    args "output", "-json"
+    workingDir "terraform"
+
+    standardOutput = new ByteArrayOutputStream()
+
+    ext.tfOutput = {
+        String json = standardOutput.toString();
+        return json != null && json != "" ? new JsonSlurper().parseText(json) : null;
+    }
+}
+
+task readServiceJson {
+    if (getTerraformOutput.ext.tfOutput() != null) {
+        File serviceJsonFile = new File("..\\service.json");
+        ext.serviceJson = serviceJsonFile.text.replace("{{{serviceUrl}}}",  getTerraformOutput.ext.tfOutput().restServiceUrl);
+    }
+}
+readServiceJson.dependsOn(getTerraformOutput);
+
+task getExistingJobProfiles(type: HttpTask) {
+    Object jobProfiles = null
+    config {
+        request.uri = serviceRegistryUrl
+    }
+    get {
+        request.uri.path = '/JobProfiles'
+        response.success { FromServer fs ->
+            ext.jobProfiles = new JsonSlurper().parseText(fs.inputStream.text)
+        }
+    }
+}
+getExistingJobProfiles.dependsOn(getTerraformOutput);
+
+task createOrUpdateJobProfiles {
+
+}
+createOrUpdateJobProfiles.dependsOn(readServiceJson);
+createOrUpdateJobProfiles.dependsOn(getExistingJobProfiles);
+
+task createOrUpdateService {
+    
+}
+createOrUpdateService.dependsOn(createOrUpdateJobProfiles);
+
 task runLocalAzureFuncRuntime(type: Exec) {
     commandLine "cmd", "/c", "func"
     args "start"
-    workingDir "..\\bin\\Release\\netstandard2.0\\azure\\function"
+    workingDir "..\\bin\\${project.config}\\netstandard2.0"
 }
-runLocalAzureFuncRuntime.dependsOn(deleteJsonFilesFromBin);
+runLocalAzureFuncRuntime.dependsOn(dotNetBuild);
 
-task createPackage {}
-createPackage.dependsOn(setZipFunctionVar);
+task build {}
+build.dependsOn(dotNetBuild);
+
+task pack {}
+pack.dependsOn(setZipFunctionVar);
 
 task deploy {}
 deploy.dependsOn(terraformApply);
 
-task packageAndDeploy{}
-packageAndDeploy.dependsOn(createPackage);
-packageAndDeploy.finalizedBy(deploy);
+task register {}
+register.dependsOn(createOrUpdateService);
+
+task packAndDeploy{}
+packAndDeploy.dependsOn(pack);
+packAndDeploy.finalizedBy(deploy);
+
+task packDeployAndRegister{}
+packAndDeploy.dependsOn(packAndDeploy);
+packAndDeploy.finalizedBy(register);
 
 task debug {}
 debug.dependsOn(runLocalAzureFuncRuntime);

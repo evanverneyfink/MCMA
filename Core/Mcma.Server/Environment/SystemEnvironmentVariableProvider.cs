@@ -8,6 +8,11 @@ namespace Mcma.Server.Environment
         public string Name => "System";
 
         /// <summary>
+        /// Gets the priority of the variable provider
+        /// </summary>
+        public int Priority => int.MaxValue;
+
+        /// <summary>
         /// Gets flag indicating if environment variables can be set with this provider
         /// </summary>
         public bool CanSet => true;

@@ -8,6 +8,11 @@ namespace Mcma.Server.Environment
         string Name { get; }
 
         /// <summary>
+        /// Gets the priority of the variable provider
+        /// </summary>
+        int Priority { get; }
+
+        /// <summary>
         /// Gets flag indicating if environment variables can be set with this provider
         /// </summary>
         bool CanSet { get; }

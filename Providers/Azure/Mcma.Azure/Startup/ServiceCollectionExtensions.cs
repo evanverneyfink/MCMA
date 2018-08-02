@@ -23,7 +23,8 @@ namespace Mcma.Azure.Startup
             // add logging and config
             services
                 .AddSingleton<ILogger, MicrosoftLoggerWrapper>()
-                .AddEnvironment(opts => opts.AddProvider(new ConfigValueProvider(config)));
+                .AddEnvironment(opts => opts.AddProvider(new ConfigValueProvider(config))
+                                            .AddProvider(AzureFunctionPublicUrl.GetEnvironmentVariableProvider()));
 
             return services;
         }

@@ -36,7 +36,7 @@ namespace Mcma.Server.Environment
         {
             foreach (var k in new[] {key}.Concat(Options.AlternateKeys.ContainsKey(key) ? Options.AlternateKeys[key] : new List<string>()))
             {
-                var variableProvider = VariableProviders.FirstOrDefault(vp => vp.HasKey(k));
+                var variableProvider = VariableProviders.OrderBy(p => p.Priority).FirstOrDefault(vp => vp.HasKey(k));
                 if (variableProvider != null && variableProvider.Get(k).TryParse<T>(out var value))
                     return value;
             }
