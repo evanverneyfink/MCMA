@@ -1,27 +1,28 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Mcma.Core" Version="0.0.0.2-alpha" />
-    <PackageReference Include="Mcma.Extensions.Files.AzureFileStorage" Version="0.0.0.6-alpha" />
-    <PackageReference Include="Mcma.Extensions.Repositories.AzureTableStorage" Version="0.0.0.6-alpha" />
-    <PackageReference Include="Mcma.Server" Version="0.0.0.4-alpha" />
-    <PackageReference Include="Mcma.Services.Jobs.JobProcessor" Version="0.0.0.4-alpha" />
-    <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.Http" Version="3.0.0-beta5" />
-    <PackageReference Include="WindowsAzure.Storage" Version="8.6.0" />
+    <PackageReference Include="Mcma.Azure" Version="0.0.0.7-alpha" />
+    <PackageReference Include="Mcma.Extensions.Files.AzureFileStorage" Version="0.0.0.7-alpha" />
+    <PackageReference Include="Mcma.Extensions.Repositories.AzureTableStorage" Version="0.0.0.7-alpha" />
+    <PackageReference Include="Mcma.Services.Jobs.JobProcessor" Version="0.0.0.5-alpha" />
+    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="1.0.14" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Mcma.Azure\Mcma.Azure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="extensions.json">
+    <None Update="host.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="ResourceApi\function.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+
+  <Target AfterTargets="Build" Name="CopyExtensions">
+    <Copy SourceFiles="extensions.json" DestinationFolder="$(OutputPath)\bin" ContinueOnError="true" />
+  </Target>
 
 </Project>

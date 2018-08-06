@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.0.0.6-alpha</Version>
+    <Version>0.0.0.7-alpha</Version>
     <Authors>Evan Verney-Fink</Authors>
     <Company>Triskel</Company>
     <Description>Adds the ability to use Azure FileStorage as a backing file system in an MCMA application</Description>
@@ -13,13 +13,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Mcma.Core" Version="0.0.0.2-alpha" />
-    <PackageReference Include="Mcma.Server" Version="0.0.0.4-alpha" />
+    <PackageReference Include="Mcma.Core" Version="0.0.0.3-alpha" />
+    <PackageReference Include="Mcma.Server" Version="0.0.0.5-alpha" />
     <PackageReference Include="WindowsAzure.Storage" Version="8.6.0" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy /e /y /r &quot;$(TargetPath)&quot; &quot;%USERPROFILE%\.nuget\packages\$(ProjectName)\0.0.0.6-alpha\lib\netstandard2.0&quot;" />
+    <Exec Command="mkdir &quot;%USERPROFILE%\.nuget\packages\$(ProjectName)\0.0.0.7-alpha\lib\netstandard2.0&quot;&#xD;&#xA;xcopy /e /y /r &quot;$(TargetPath)&quot; &quot;%USERPROFILE%\.nuget\packages\$(ProjectName)\0.0.0.7-alpha\lib\netstandard2.0&quot;" />
   </Target>
 
 </Project>

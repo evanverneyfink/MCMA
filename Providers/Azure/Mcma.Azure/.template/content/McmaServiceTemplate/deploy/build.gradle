@@ -1,3 +1,7 @@
+import groovy.json.JsonSlurper
+import groovyx.net.http.FromServer
+import io.github.httpbuilderng.http.HttpTask
+
 plugins {
   id "io.github.http-builder-ng.http-plugin" version "0.1.1"
 }
@@ -51,17 +55,21 @@ terraformApply.dependsOn(terraformInit);
 task getTerraformOutput(type: Exec) {
     commandLine "cmd", "/c", "terraform"
     args "output", "-json"
+    workingDir "terraform"
 
     standardOutput = new ByteArrayOutputStream()
 
     ext.tfOutput = {
-        return new JsonSlurper().parseText(standardOutput.toString())
+        String json = standardOutput.toString();
+        return json != null && json != "" ? new JsonSlurper().parseText(json) : null;
     }
 }
 
 task readServiceJson {
-    File serviceJsonFile = new File("..\\service.json");
-    ext.serviceJson = serviceJsonFile.text.replace("{{{serviceUrl}}}", getTerraformOutput.ext.tfOutput().restServiceUrl);
+    if (getTerraformOutput.ext.tfOutput() != null) {
+        File serviceJsonFile = new File("..\\service.json");
+        ext.serviceJson = serviceJsonFile.text.replace("{{{serviceUrl}}}",  getTerraformOutput.ext.tfOutput().restServiceUrl);
+    }
 }
 readServiceJson.dependsOn(getTerraformOutput);
 
@@ -72,11 +80,12 @@ task getExistingJobProfiles(type: HttpTask) {
     }
     get {
         request.uri.path = '/JobProfiles'
-        response.success { FromServer fs =>
+        response.success { FromServer fs ->
             ext.jobProfiles = new JsonSlurper().parseText(fs.inputStream.text)
         }
     }
 }
+getExistingJobProfiles.dependsOn(getTerraformOutput);
 
 task createOrUpdateJobProfiles {
 
@@ -88,19 +97,6 @@ task createOrUpdateService {
     
 }
 createOrUpdateService.dependsOn(createOrUpdateJobProfiles);
-
-task register(type: HttpTask) {
-    config {
-        request.uri = getTerraformOutput.ext.tfOutput.serviceRegistryUrl
-    }
-    post {
-        request.uri.path = '/'
-        request.body = [event: 'activated']
-        response.success { FromServer fs =>
-            new JsonSlurper().parseText(fs.inputStream.text)
-        }
-    }
-}
 
 task runLocalAzureFuncRuntime(type: Exec) {
     commandLine "cmd", "/c", "func"
@@ -118,13 +114,16 @@ pack.dependsOn(setZipFunctionVar);
 task deploy {}
 deploy.dependsOn(terraformApply);
 
+task register {}
+register.dependsOn(createOrUpdateService);
+
 task packAndDeploy{}
-packageAndDeploy.dependsOn(pack);
-packageAndDeploy.finalizedBy(deploy);
+packAndDeploy.dependsOn(pack);
+packAndDeploy.finalizedBy(deploy);
 
 task packDeployAndRegister{}
-packageAndDeploy.dependsOn(packAndDeploy);
-packageAndDeploy.finalizedBy(register);
+packDeployAndRegister.dependsOn(packAndDeploy);
+packDeployAndRegister.finalizedBy(register);
 
 task debug {}
 debug.dependsOn(runLocalAzureFuncRuntime);

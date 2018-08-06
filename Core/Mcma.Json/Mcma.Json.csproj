@@ -3,25 +3,23 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.0.0.2-alpha</Version>
+    <Version>0.0.0.3-alpha</Version>
     <Authors>Evan Verney-Fink</Authors>
     <Company>Triskel</Company>
     <Description>Provides JSON serialization functionality for the MCMA resource data model</Description>
     <PackageProjectUrl>https://github.com/evanverneyfink/MCMA</PackageProjectUrl>
     <RepositoryUrl>https://github.com/evanverneyfink/MCMA</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
+    <AssemblyVersion>0.0.0.3</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Mcma.Core" Version="0.0.0.3-alpha" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Mcma.Core\Mcma.Core.csproj" />
-  </ItemGroup>
-
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy /e /y /r &quot;$(TargetPath)&quot; &quot;%USERPROFILE%\.nuget\packages\$(ProjectName)\0.0.0.2-alpha\lib\netstandard2.0&quot;" />
+    <Exec Command="mkdir &quot;%USERPROFILE%\.nuget\packages\$(ProjectName)\0.0.0.3-alpha\lib\netstandard2.0&quot;&#xD;&#xA;xcopy /e /y /r &quot;$(TargetPath)&quot; &quot;%USERPROFILE%\.nuget\packages\$(ProjectName)\0.0.0.3-alpha\lib\netstandard2.0&quot;" />
   </Target>
 
 </Project>

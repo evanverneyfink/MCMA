@@ -122,8 +122,8 @@ packAndDeploy.dependsOn(pack);
 packAndDeploy.finalizedBy(deploy);
 
 task packDeployAndRegister{}
-packAndDeploy.dependsOn(packAndDeploy);
-packAndDeploy.finalizedBy(register);
+packDeployAndRegister.dependsOn(packAndDeploy);
+packDeployAndRegister.finalizedBy(register);
 
 task debug {}
 debug.dependsOn(runLocalAzureFuncRuntime);

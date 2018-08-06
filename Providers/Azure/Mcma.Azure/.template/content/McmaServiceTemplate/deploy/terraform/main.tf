@@ -124,10 +124,13 @@ resource "azurerm_function_app" "api_function" {
   app_settings {
     WEBSITE_RUN_FROM_ZIP           = "${azurerm_storage_blob.uploaded_zip.url}${data.azurerm_storage_account_sas.storage_acct_sas.sas}"
     APPINSIGHTS_INSTRUMENTATIONKEY = "${azurerm_application_insights.app_insights.instrumentation_key}"
-    RootPath                       = "api/HandleRequest"
+    RootPath                       = "api/ResourceApi"
+    StorageAccountName             = "${azurerm_storage_account.storage_account.name}"
+    StorageAccountKeyValue         = "${azurerm_storage_account.storage_account.primary_access_key}"
+    TableName                      = "${var.serviceName}"
   }
 }
 
 output restServiceUrl {
-  value = "http://${azurerm_function_app.api_function.default_hostname}/api"
+  value = "http://${azurerm_function_app.api_function.default_hostname}/api/ResourceApi"
 }

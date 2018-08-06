@@ -1,0 +1,12 @@
+{
+  "type": "Service",
+  "label": "MCMA Job Processor Service",
+  "hasResource": [
+    {
+      "resourceType": "JobProcess",
+      "httpEndpoint": "{{{serviceUrl}}}/JobProcesses"
+    }
+  ],
+  "acceptsJobType": [],
+  "acceptsJobProfile": []
+}

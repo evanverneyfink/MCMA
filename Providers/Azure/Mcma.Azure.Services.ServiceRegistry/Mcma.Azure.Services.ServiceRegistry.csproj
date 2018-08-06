@@ -5,11 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Mcma.Core" Version="0.0.0.2-alpha" />
-    <PackageReference Include="Mcma.Extensions.Files.AzureFileStorage" Version="0.0.0.6-alpha" />
-    <PackageReference Include="Mcma.Extensions.Repositories.AzureTableStorage" Version="0.0.0.6-alpha" />
-    <PackageReference Include="Mcma.Server" Version="0.0.0.4-alpha" />
-    <PackageReference Include="Mcma.Services.ServiceRegistry" Version="0.0.0.4-alpha" />
+    <PackageReference Include="Mcma.Core" Version="0.0.0.3-alpha" />
+    <PackageReference Include="Mcma.Extensions.Files.AzureFileStorage" Version="0.0.0.7-alpha" />
+    <PackageReference Include="Mcma.Extensions.Repositories.AzureTableStorage" Version="0.0.0.7-alpha" />
+    <PackageReference Include="Mcma.Server" Version="0.0.0.5-alpha" />
+    <PackageReference Include="Mcma.Services.ServiceRegistry" Version="0.0.0.5-alpha" />
     <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.Http" Version="3.0.0-beta5" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.1.1" />
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="1.0.14" />

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>0.0.0.4-alpha</Version>
+    <Version>0.0.0.5-alpha</Version>
     <Authors>Evan Verney-Fink</Authors>
     <Company>Triskel</Company>
     <Description>Library for running MediaInfo as part of an MCMA cloud service</Description>
@@ -17,19 +17,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Mcma.Core" Version="0.0.0.2-alpha" />
-    <PackageReference Include="Mcma.Server" Version="0.0.0.4-alpha" />
+    <PackageReference Include="Mcma.Core" Version="0.0.0.3-alpha" />
+    <PackageReference Include="Mcma.Server" Version="0.0.0.5-alpha" />
+    <PackageReference Include="Mcma.Services.Jobs.WorkerFunctions" Version="0.0.0.5-alpha" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.1.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Mcma.Services.Jobs.WorkerFunctions\Mcma.Services.Jobs.WorkerFunctions.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
-      <HintPath>..\..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.2.0.0\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
   <ItemGroup>
@@ -39,7 +30,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy /e /y /r &quot;$(TargetPath)&quot; &quot;%USERPROFILE%\.nuget\packages\$(ProjectName)\0.0.0.4-alpha\lib\netstandard2.0&quot;" />
+    <Exec Command="mkdir &quot;%USERPROFILE%\.nuget\packages\$(ProjectName)\0.0.0.5-alpha\lib\netstandard2.0&quot;&#xD;&#xA;xcopy /e /y /r &quot;$(TargetPath)&quot; &quot;%USERPROFILE%\.nuget\packages\$(ProjectName)\0.0.0.5-alpha\lib\netstandard2.0&quot;" />
   </Target>
 
 </Project>

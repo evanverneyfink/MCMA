@@ -6,7 +6,7 @@
     <OutputType>Library</OutputType>
     <StartupObject />
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.0.0.4-alpha</Version>
+    <Version>0.0.0.5-alpha</Version>
     <Authors>Evan Verney-Fink</Authors>
     <Company>Triskel</Company>
     <Description>Library for building MCMA services on AWS</Description>
@@ -21,10 +21,14 @@
     <PackageReference Include="Amazon.Lambda.Core" Version="1.0.0" />
     <PackageReference Include="AWSSDK.Core" Version="3.3.24.2" />
     <PackageReference Include="AWSSDK.Lambda" Version="3.3.14" />
-    <PackageReference Include="Mcma.Core" Version="0.0.0.2-alpha" />
-    <PackageReference Include="Mcma.Server" Version="0.0.0.4-alpha" />
+    <PackageReference Include="Mcma.Core" Version="0.0.0.3-alpha" />
+    <PackageReference Include="Mcma.Server" Version="0.0.0.5-alpha" />
     <PackageReference Include="Mcma.Services.Jobs.WorkerFunctions" Version="0.0.0.4-alpha" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.1.1" />
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="mkdir &quot;%USERPROFILE%\.nuget\packages\$(ProjectName)\0.0.0.5-alpha\lib\netstandard2.0&quot;&#xD;&#xA;xcopy /e /y /r &quot;$(TargetPath)&quot; &quot;%USERPROFILE%\.nuget\packages\$(ProjectName)\0.0.0.5-alpha\lib\netstandard2.0&quot;" />
+  </Target>
 
 </Project>

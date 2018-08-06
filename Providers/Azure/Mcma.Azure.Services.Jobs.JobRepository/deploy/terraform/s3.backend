@@ -1,0 +1,4 @@
+bucket = "mcma-dotnet-tfstate"
+key = "Mcma.Azure.Services.Jobs.JobRepository.tfstate"
+region = "us-east-1"
+profile = "terraform"

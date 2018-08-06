@@ -6,13 +6,10 @@
 
   <ItemGroup>
     <PackageReference Include="Amazon.Lambda.Serialization.Json" Version="1.3.0" />
-    <PackageReference Include="Mcma.Extensions.Files.S3" Version="0.0.0.6-alpha" />
-    <PackageReference Include="Mcma.Extensions.Repositories.DynamoDb" Version="0.0.0.4-alpha" />
-    <PackageReference Include="Mcma.Services.Jobs.JobProcessor" Version="0.0.0.4-alpha" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Mcma.Aws\Mcma.Aws.csproj" />
+    <PackageReference Include="Mcma.Aws" Version="0.0.0.5-alpha" />
+    <PackageReference Include="Mcma.Extensions.Files.S3" Version="0.0.0.7-alpha" />
+    <PackageReference Include="Mcma.Extensions.Repositories.DynamoDb" Version="0.0.0.5-alpha" />
+    <PackageReference Include="Mcma.Services.Jobs.JobProcessor" Version="0.0.0.5-alpha" />
   </ItemGroup>
 
 </Project>
