@@ -2,9 +2,9 @@ namespace Mcma.Extensions.Repositories.AzureTableStorage
 {
     public static class AzureTableStorageDefaults
     {
-        public const string ResourceTypeProperty = "resource_type";
+        public const string PartitionKeyProperty = "PartitionKey";
 
-        public const string ResourceIdProperty = "resource_id";
+        public const string RowKeyProperty = "RowKey";
 
         public const string ResourceProperty = "resource";
     }

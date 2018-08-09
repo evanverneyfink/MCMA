@@ -43,14 +43,14 @@ namespace Mcma.Extensions.Repositories.AzureTableStorage
         /// </summary>
         /// <param name="tableName"></param>
         /// <returns></returns>
-        public string GetPartitionKeyFieldName(string tableName) => AzureTableStorageDefaults.ResourceTypeProperty;
+        public string GetPartitionKeyFieldName(string tableName) => AzureTableStorageDefaults.PartitionKeyProperty;
 
         /// <summary>
         /// Gets the name of the row key for a table of the specified type
         /// </summary>
         /// <param name="tableName"></param>
         /// <returns></returns>
-        public string GetRowKeyFieldName(string tableName) => AzureTableStorageDefaults.ResourceIdProperty;
+        public string GetRowKeyFieldName(string tableName) => AzureTableStorageDefaults.RowKeyProperty;
 
         /// <summary>
         /// Gets the name of the row key for a table of the specified type

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,19 +6,48 @@ using Mcma.Core.Model;
 using Mcma.Server;
 using Mcma.Server.Data;
 using Microsoft.Extensions.Options;
-using Microsoft.WindowsAzure.Storage.Table;
 
-namespace Mcma.Extensions.Repositories.AzureTableStorage
+namespace Mcma.Extensions.Repositories.CosmosDb
 {
-    public class TableStorageRepository : IRepository
+    public class CosmosDbOptions
     {
         /// <summary>
-        /// Instantiates a <see cref="TableStorageRepository"/>
+        /// Gets or sets the Azure account name
+        /// </summary>
+        public string AccountName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Azure account key value
+        /// </summary>
+        public string KeyValue { get; set; }
+
+        /// <summary>
+        /// Gets Azure storage credentials
+        /// </summary>
+        /// <returns></returns>
+        public StorageCredentials StorageCredentials
+            => AccountName != null
+                   ? (KeyValue != null
+                          ? new StorageCredentials(AccountName, KeyValue)
+                          : new StorageCredentials(AccountName))
+                   : new StorageCredentials();
+
+        /// <summary>
+        /// Creates a file client
+        /// </summary>
+        /// <returns></returns>
+        public CloudTableClient CreateTableClient() => new CloudStorageAccount(StorageCredentials, true).CreateCloudTableClient();
+    }
+
+    public class CosmosDbRepository : IRepository
+    {
+        /// <summary>
+        /// Instantiates a <see cref="CosmosDbRepository"/>
         /// </summary>
         /// <param name="logger"></param>
         /// <param name="tableConfigProvider"></param>
         /// <param name="options"></param>
-        public TableStorageRepository(ILogger logger, IAzureStorageTableConfigProvider tableConfigProvider, IOptions<TableStorageOptions> options)
+        public CosmosDbRepository(ILogger logger, IAzureStorageTableConfigProvider tableConfigProvider, IOptions<TableStorageOptions> options)
         {
             Logger = logger;
             TableConfigProvider = tableConfigProvider;
@@ -47,7 +76,7 @@ namespace Mcma.Extensions.Repositories.AzureTableStorage
         {
             return await TableWithName(TableConfigProvider.GetTableName(type));
         }
-        
+
         /// <summary>
         /// Gets the Azure Table Storage table
         /// </summary>
@@ -130,9 +159,10 @@ namespace Mcma.Extensions.Repositories.AzureTableStorage
         {
             var tableQuery =
                 new TableQuery().Where(
-                    $"{TableConfigProvider.GetPartitionKeyFieldName(table.Name)} {QueryComparisons.Equal} '{typeName}'" +
-                    " and " +
-                    $"{TableConfigProvider.GetRowKeyFieldName(table.Name)} {QueryComparisons.Equal} '{ResourceTableEntity.IdToRowKey(id)}'");
+                    TableQuery.CombineFilters(
+                        TypeCondition(table.Name, typeName),
+                        "AND",
+                        TableQuery.GenerateFilterCondition(TableConfigProvider.GetRowKeyFieldName(table.Name), QueryComparisons.Equal, id)));
 
             Logger.Debug("Getting item with hash key {0} and range key {1} from table {2}...", typeName, id, table.Name);
 
@@ -207,7 +237,7 @@ namespace Mcma.Extensions.Repositories.AzureTableStorage
         public async Task Delete(Type type, string id)
         {
             var table = await Table(type);
-            await table.ExecuteAsync(TableOperation.Delete(new ResourceTableEntity(type.Name, id)));
+            await table.ExecuteAsync(TableOperation.Delete(TableConfigProvider.GetResourceTableEntity(table.Name, type.Name, id)));
         }
 
         /// <summary>
@@ -220,7 +250,8 @@ namespace Mcma.Extensions.Repositories.AzureTableStorage
         {
             var table = await Table(typeof(T));
 
-            var entity = new ResourceTableEntity((string)resource.Type, (string)resource.Id) {Resource = resource};
+            var entity = TableConfigProvider.GetResourceTableEntity(table.Name, (string)resource.Type, (string)resource.Id);
+            entity.Resource = resource;
 
             await table.ExecuteAsync(TableOperation.InsertOrReplace(entity));
 
@@ -236,7 +267,8 @@ namespace Mcma.Extensions.Repositories.AzureTableStorage
         {
             var table = await Table((string)resource.Type);
 
-            var entity = new ResourceTableEntity((string)resource.Type, (string)resource.Id) {Resource = resource};
+            var entity = TableConfigProvider.GetResourceTableEntity(table.Name, (string)resource.Type, (string)resource.Id);
+            entity.Resource = resource;
 
             await table.ExecuteAsync(TableOperation.InsertOrReplace(entity));
 

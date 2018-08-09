@@ -18,12 +18,11 @@ namespace Mcma.Extensions.Repositories.AzureTableStorage
                 var result =
                     await table.ExecuteQuerySegmentedAsync(
                         query,
-                        (partitionKey, rowKey, timestamp, properties, etag) =>
-                            tableConfigProvider.GetResourceTableEntity(table.Name, partitionKey, rowKey, timestamp, properties, etag),
+                        (partitionKey, rowKey, timestamp, properties, etag) => new ResourceTableEntity(partitionKey, rowKey, timestamp, properties, etag),
                         continuationToken);
 
                 // add resource docs to results
-                results.AddRange(result.Results.Select(e => e.ResourceDocument));
+                results.AddRange(result.Results.Select(e => e.Resource));
 
                 continuationToken = result.ContinuationToken;
             }

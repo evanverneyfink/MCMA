@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
-using System.Linq;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 
@@ -9,104 +8,57 @@ namespace Mcma.Extensions.Repositories.AzureTableStorage
 {
     public class ResourceTableEntity : ITableEntity
     {
+        public static string IdToRowKey(string id) => id?.Replace(":", "_").Replace("/", "|");
+
         /// <summary>
         /// Instantiates a <see cref="ResourceTableEntity"/>
         /// </summary>
-        /// <param name="partitionKeyFieldName"></param>
-        /// <param name="rowKeyFieldName"></param>
-        /// <param name="resourceFieldName"></param>
-        public ResourceTableEntity(string partitionKeyFieldName, string rowKeyFieldName, string resourceFieldName)
+        /// <param name="resourceTypeName"></param>
+        /// <param name="resourceId"></param>
+        /// <param name="timestamp"></param>
+        /// <param name="properties"></param>
+        /// <param name="etag"></param>
+        public ResourceTableEntity(string resourceTypeName,
+                                   string resourceId,
+                                   DateTimeOffset? timestamp = null,
+                                   IDictionary<string, EntityProperty> properties = null,
+                                   string etag = null)
         {
-            PartitionKeyFieldName = partitionKeyFieldName;
-            RowKeyFieldName = rowKeyFieldName;
-            ResourceFieldName = resourceFieldName;
+            PartitionKey = resourceTypeName;
+            RowKey = IdToRowKey(resourceId);
+
+            if (timestamp.HasValue)
+                Timestamp = timestamp.Value;
+            if (etag != null)
+                ETag = etag;
+            if (properties != null)
+                ReadEntity(properties, null);
         }
-
-        /// <summary>
-        /// Gets the name of the partition key field
-        /// </summary>
-        private string PartitionKeyFieldName { get; }
-
-        /// <summary>
-        /// Gets the name of the row key field
-        /// </summary>
-        private string RowKeyFieldName { get; }
-
-        /// <summary>
-        /// Gets the name of resource field
-        /// </summary>
-        private string ResourceFieldName { get; }
-
-        /// <summary>
-        /// Getsr or sets the underlying dynamic object
-        /// </summary>
-        internal ExpandoObject Resource { get; set; }
-
-        /// <summary>
-        /// Gets the underlying dynamic object as a dictionary of properties
-        /// </summary>
-        private IDictionary<string, object> Properties => Resource;
 
         /// <summary>
         /// Gets or sets the partiton key
         /// </summary>
-        public string PartitionKey
-        {
-            get => GetProperty<string>(PartitionKeyFieldName);
-            set => SetProperty(PartitionKeyFieldName, value);
-        }
+        public string PartitionKey { get; set; }
 
         /// <summary>
         /// Gets or sets the row key
         /// </summary>
-        public string RowKey
-        {
-            get => GetProperty<string>(RowKeyFieldName);
-            set => SetProperty(RowKeyFieldName, value);
-        }
+        public string RowKey { get; set; }
 
         /// <summary>
         /// Gets or sets the timestamp
         /// </summary>
-        public DateTimeOffset Timestamp
-        {
-            get => GetProperty<DateTimeOffset>(nameof(Timestamp));
-            set => SetProperty(nameof(Timestamp), value);
-        }
+        public DateTimeOffset Timestamp { get; set; }
 
         /// <summary>
         /// Gets or sets the etag
         /// </summary>
-        public string ETag
-        {
-            get => GetProperty<string>(nameof(ETag));
-            set => SetProperty(nameof(ETag), value);
-        }
+        public string ETag { get; set; }
 
         /// <summary>
-        /// Gets or sets the resource document
+        /// Getsr or sets the underlying dynamic object
         /// </summary>
-        public dynamic ResourceDocument
-        {
-            get => GetProperty<dynamic>(ResourceFieldName);
-            set => SetProperty(ResourceFieldName, value);
-        }
-
-        /// <summary>
-        /// Gets a property's value
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        private T GetProperty<T>(string name) => Properties.ContainsKey(name) ? (T)Properties[name] : default(T);
-
-        /// <summary>
-        /// Sets a property's value
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="name"></param>
-        /// <param name="value"></param>
-        private void SetProperty<T>(string name, T value) => Properties[name] = value;
+        public ExpandoObject Resource { get; set; }
 
         /// <summary>
         /// Reads in the entity's propreties
@@ -122,6 +74,6 @@ namespace Mcma.Extensions.Repositories.AzureTableStorage
         /// <param name="operationContext"></param>
         /// <returns></returns>
         public IDictionary<string, EntityProperty> WriteEntity(OperationContext operationContext)
-            => Resource.ToDictionary(kvp => kvp.Key, kvp => EntityProperty.CreateEntityPropertyFromObject(kvp.Value));
+            => Resource.ToEntityProperties();
     }
 }
