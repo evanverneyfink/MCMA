@@ -112,12 +112,11 @@ namespace Mcma.Extensions.Repositories.AzureTableStorage
         public async Task<dynamic> Get(Type type, string id) => await Get(await Table(type), type.Name, id);
 
         /// <summary>
-        /// Gets a resource by its type and ID
+        /// Gets a resource of type <see cref="T"/> by its ID
         /// </summary>
-        /// <param name="typeName"></param>
         /// <param name="id"></param>
         /// <returns></returns>
-        private async Task<dynamic> Get(string typeName, string id) => await Get(await Table(typeName), typeName, id);
+        public async Task<dynamic> Get<T>(string id) where T : Resource, new() => await Get(typeof(T), id);
 
         /// <summary>
         /// Gets a resource of a given type and with the provided id from a given table
@@ -127,27 +126,7 @@ namespace Mcma.Extensions.Repositories.AzureTableStorage
         /// <param name="id"></param>
         /// <returns></returns>
         private async Task<dynamic> Get(CloudTable table, string typeName, string id)
-        {
-            var tableQuery =
-                new TableQuery().Where(
-                    $"{TableConfigProvider.GetPartitionKeyFieldName(table.Name)} {QueryComparisons.Equal} '{typeName}'" +
-                    " and " +
-                    $"{TableConfigProvider.GetRowKeyFieldName(table.Name)} {QueryComparisons.Equal} '{ResourceTableEntity.IdToRowKey(id)}'");
-
-            Logger.Debug("Getting item with hash key {0} and range key {1} from table {2}...", typeName, id, table.Name);
-
-            return (await table.ExecuteQueryAsync(TableConfigProvider, tableQuery)).FirstOrDefault();
-        }
-
-        /// <summary>
-        /// Gets a resource of type <see cref="T"/> by its ID
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public async Task<dynamic> Get<T>(string id) where T : Resource, new()
-        {
-            return await Get(typeof(T), id);
-        }
+            => await table.ExecuteRetrieveAsync(TableConfigProvider, typeName, ResourceTableEntity.IdToRowKey(id));
 
         /// <summary>
         /// Queries resources of type <see cref="T"/> using the provided criteria, in the form of key/value pairs
@@ -181,7 +160,7 @@ namespace Mcma.Extensions.Repositories.AzureTableStorage
         /// <param name="type"></param>
         /// <param name="resource"></param>
         /// <returns></returns>
-        public Task<dynamic> Create(Type type, dynamic resource) => CreateOrUpdate(resource);
+        public Task<dynamic> Create(Type type, dynamic resource) => CreateOrUpdate(type, resource);
 
         /// <summary>
         /// Updates a resource of type <see cref="T"/>
@@ -196,7 +175,7 @@ namespace Mcma.Extensions.Repositories.AzureTableStorage
         /// <param name="type"></param>
         /// <param name="resource"></param>
         /// <returns></returns>
-        public Task<dynamic> Update(Type type, dynamic resource) => CreateOrUpdate(resource);
+        public Task<dynamic> Update(Type type, dynamic resource) => CreateOrUpdate(type, resource);
 
         /// <summary>
         /// Deletes a resource of type by its ID
@@ -230,17 +209,18 @@ namespace Mcma.Extensions.Repositories.AzureTableStorage
         /// <summary>
         /// Creates or updates record in Azure Table Storage
         /// </summary>
+        /// <param name="type"></param>
         /// <param name="resource"></param>
         /// <returns></returns>
-        private async Task<dynamic> CreateOrUpdate(dynamic resource)
+        private async Task<dynamic> CreateOrUpdate(Type type, dynamic resource)
         {
             var table = await Table((string)resource.Type);
 
-            var entity = new ResourceTableEntity((string)resource.Type, (string)resource.Id) {Resource = resource};
+            var entity = new ResourceTableEntity(type.Name, (string)resource.Id) {Resource = resource};
 
             await table.ExecuteAsync(TableOperation.InsertOrReplace(entity));
 
-            return await Get(resource.Type, resource.Id);
+            return await Get(type, resource.Id);
         }
     }
 }

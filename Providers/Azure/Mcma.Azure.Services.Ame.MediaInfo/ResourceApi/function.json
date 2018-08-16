@@ -4,11 +4,11 @@
       "type": "httpTrigger",
       "name": "request",
       "authLevel": "function",
-      "route": "{*all}" 
+      "route": "ResourceApi/{*all}"
     },
     {
       "type": "inject",
-      "name": "resourceApi" 
+      "name": "resourceApi"
     }
   ],
   "disabled": false,

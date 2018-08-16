@@ -39,10 +39,15 @@ namespace Mcma.Extensions.Files.AzureFileStorage
         protected override async Task<Locator> WriteTextToFile(AzureFileStorageLocator locator, string fileName, string contents)
         {
             // create locator for upload location
-            var uploadLocator = new AzureFileStorageLocator {Directory = locator.Directory, FileName = (locator.FileName ?? string.Empty) + fileName};
+            var uploadLocator = new AzureFileStorageLocator
+            {
+                Share = locator.Share,
+                Directory = locator.Directory,
+                FileName = (locator.FileName ?? string.Empty) + fileName
+            };
 
             // upload text to speciifed file location
-            await FileClient.GetFile(uploadLocator).UploadFromStreamAsync(new MemoryStream(Utf8.GetByteCount(contents)));
+            await FileClient.GetFile(uploadLocator).UploadFromStreamAsync(new MemoryStream(Utf8.GetBytes(contents)));
 
             return uploadLocator;
         }

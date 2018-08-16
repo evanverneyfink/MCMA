@@ -4,8 +4,8 @@ namespace Mcma.Extensions.Files.AzureFileStorage
 {
     public static class FileStorageOptionsExtensions
     {
-        public const string AccountNameKey = "AZURE_ACCT_NAME";
-        public const string KeyValueKey = "AZURE_KEY_VALUE";
+        public const string AccountNameKey = "StorageAccountName";
+        public const string KeyValueKey = "StorageAccountKeyValue";
 
         public static FileStorageOptions FromEnvironmentVariables(this FileStorageOptions options)
         {

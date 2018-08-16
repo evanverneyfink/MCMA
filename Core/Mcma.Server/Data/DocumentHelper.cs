@@ -16,7 +16,14 @@ namespace Mcma.Server.Data
         /// </summary>
         /// <param name="resource"></param>
         /// <returns></returns>
-        public dynamic GetDocument(Resource resource)
+        public dynamic GetDocument(Resource resource) => GetDocument((object)resource);
+
+        /// <summary>
+        /// Gets a document from an object
+        /// </summary>
+        /// <param name="resource"></param>
+        /// <returns></returns>
+        private dynamic GetDocument(object resource)
         {
             IDictionary<string, object> expando = new ExpandoObject();
 
@@ -29,14 +36,17 @@ namespace Mcma.Server.Data
                     case Resource linkedResource:
                         expando[prop.Name] = linkedResource.Id;
                         break;
+                    case Type type:
+                        expando[prop.Name] = type.Name;
+                        break;
                     case IEnumerable<Resource> linkedResources:
                         expando[prop.Name] = linkedResources.Select(r => r.Id).ToArray();
                         break;
                     case IEnumerable<Type> types:
                         expando[prop.Name] = types.Select(t => t.Name).ToArray();
                         break;
-                    case Type type:
-                        expando[prop.Name] = type.Name;
+                    case IEnumerable<object> linkedResources:
+                        expando[prop.Name] = linkedResources.Select(GetDocument).ToArray();
                         break;
                     default:
                         expando[prop.Name] = propValue;
@@ -82,6 +92,7 @@ namespace Mcma.Server.Data
                 // If the current property's declaring type is a base class to the existing property's declaring type, we want to
                 // keep the property we already have. Otherwise, we overwrite it with the property from the derived class.
                 if (propertyValues.ContainsKey(prop.Name) &&
+                    prop.DeclaringType != null &&
                     prop.DeclaringType.IsAssignableFrom(propertyValues[prop.Name].DeclaringType))
                     continue;
 

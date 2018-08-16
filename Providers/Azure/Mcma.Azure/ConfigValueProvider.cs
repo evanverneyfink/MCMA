@@ -22,7 +22,7 @@ namespace Mcma.Azure
         /// <summary>
         /// Gets the name of environment variable provider
         /// </summary>
-        public string Name => "WebApiConfig";
+        public string Name => "DotNetConfig";
 
         /// <summary>
         /// Gets the priority of the config value provider

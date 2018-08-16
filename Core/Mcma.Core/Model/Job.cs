@@ -15,8 +15,12 @@ namespace Mcma.Core.Model
 
         public string JobProcess { get; set; }
 
-        public IDictionary<string, object> JobInput { get; set; } = new Dictionary<string, object>();
+        public ExpandoObject JobInput { get; set; } = new ExpandoObject();
 
-        public IDictionary<string, object> JobOutput { get; set; } = new Dictionary<string, object>();
+        public ExpandoObject JobOutput { get; set; } = new ExpandoObject();
+
+        public bool TryGetInput(string name, out object input) => ((IDictionary<string, object>)JobInput).TryGetValue(name, out input);
+
+        public bool TryGetOutput(string name, out object output) => ((IDictionary<string, object>)JobOutput).TryGetValue(name, out output);
     }
 }

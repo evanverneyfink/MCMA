@@ -28,11 +28,10 @@ namespace Mcma.Core.Jobs
 
                     var inputPropertyName = inputParam.JobProperty;
 
-                    if (job.JobInput[inputPropertyName] == null)
+                    if (!job.TryGetInput(inputPropertyName, out var inputProperty))
                         throw new Exception($"Invalid Job: Missing required input parameter '{inputPropertyName}'");
 
-                    if (inputParam.ParameterType != null &&
-                        !inputParam.ParameterType.IsInstanceOfType(job.JobInput[inputPropertyName]))
+                    if (inputParam.ParameterType != null && !inputParam.ParameterType.IsInstanceOfType(inputProperty))
                         throw new Exception($"Invalid Job: Required input parameter '{inputPropertyName}' has wrong type");
                 }
             }

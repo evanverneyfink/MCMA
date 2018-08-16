@@ -16,6 +16,7 @@ namespace Mcma.Azure
         {
             Logger = loggerFactory.CreateLogger("Function.MicrosoftLoggerWrapper.User");
             Options = options.Value ?? new LoggerOptions();
+            Console.WriteLine($"LogToConsole = {Options.LogToConsole}");
         }
 
         /// <summary>

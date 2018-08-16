@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Mcma.Core.Model;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Mcma.Json
 {
@@ -15,6 +16,6 @@ namespace Mcma.Json
         /// <summary>
         /// Gets or sets the JSON serialization settings
         /// </summary>
-        public JsonSerializerSettings JsonSerializerSettings { get; set; } = new JsonSerializerSettings();
+        public JsonSerializerSettings JsonSerializerSettings { get; set; } = new JsonSerializerSettings {Converters = {new ExpandoObjectConverter()}};
     }
 }

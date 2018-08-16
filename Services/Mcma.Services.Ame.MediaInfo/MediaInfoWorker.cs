@@ -1,5 +1,7 @@
 using System;
+using System.Dynamic;
 using System.Threading.Tasks;
+using Mcma.Core;
 using Mcma.Core.Model;
 using Mcma.Core.Serialization;
 using Mcma.Server;
@@ -105,29 +107,18 @@ namespace Mcma.Services.Ame.MediaInfo
                     throw new Exception($"JobProfile '{job.JobProfile.Label}' not accepted");
 
                 // ensure the job specifies input and output locations
-                if (job.JobInput["inputFile"] == null)
+                if (!job.TryGetInput("inputFile", out var inputFileValue) || !(inputFileValue is ExpandoObject inputFileExpando))
                     throw new Exception("Job does not specify an input location.");
-                // ensure the job specifies an output location
-                if (job.JobInput["outputLocation"] == null)
-                    throw new Exception("Job does not specify an output location.");
-
-                var serializedOutputLocation = job.JobInput["outputLocation"]?.ToString();
-                if (serializedOutputLocation == null)
-                    throw new Exception("Failed to resolve jobInput[\"outputLocation\"]");
-
-                Logger.Debug("Deserializing output location from {0}...", serializedOutputLocation);
-
-                // get output locator
-                var outputLocation = await ResourceSerializer.Deserialize<Locator>(serializedOutputLocation);
-
-                var serializedInputFile = job.JobInput["inputFile"]?.ToString();
-                if (serializedInputFile == null)
-                    throw new Exception("Failed to resolve jobInput[\"inputFile\"]");
-
-                Logger.Debug("Deserializing input file path from {0}...", serializedInputFile);
 
                 // get input locator
-                var inputFile = await ResourceSerializer.Deserialize<Locator>(serializedInputFile);
+                var inputFile = inputFileExpando.ToResource<Locator>();
+
+                // ensure the job specifies an output location
+                if (!job.TryGetInput("outputLocation", out var outputLocationValue) || !(outputLocationValue is ExpandoObject outputLocationExpando))
+                    throw new Exception("Job does not specify an output location.");
+
+                // get output locator
+                var outputLocation = outputLocationExpando.ToResource<Locator>();
                 
                 Logger.Debug("Getting url for input file that's accessible by MediaInfo...");
 
@@ -156,7 +147,9 @@ namespace Mcma.Services.Ame.MediaInfo
 
                 // save JSON to file and store the resulting locator in the job output
                 var outputLocator = await FileStorage.WriteTextToFile(outputLocation, Guid.NewGuid().ToString(), mediaInfoJson);
-                job.JobOutput["outputFile"] = outputLocator;
+                
+                // set output file on job
+                ((dynamic)job.JobOutput).outputFile = outputLocator;
                 
                 Logger.Debug("MediaInfo JSON stored to file. Locator = {0}", ResourceSerializer.Serialize(outputLocator));
                 Logger.Info("MediaInfo job {0} completed successfully.", job.Id);

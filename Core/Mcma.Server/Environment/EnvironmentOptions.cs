@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace Mcma.Server.Environment
@@ -14,6 +15,12 @@ namespace Mcma.Server.Environment
         /// </summary>
         internal List<IEnvironmentVariableProvider> VariableProviders { get; } =
             new List<IEnvironmentVariableProvider> {new SystemEnvironmentVariableProvider()};
+
+        /// <summary>
+        /// Gets the collection of environment variable provider factories
+        /// </summary>
+        internal List<Func<IEnvironment, IEnvironmentVariableProvider>> VariableProviderFactories { get; } =
+            new List<Func<IEnvironment, IEnvironmentVariableProvider>>();
 
         /// <summary>
         /// Allows mapping of alternate keys to get values from config
@@ -40,6 +47,16 @@ namespace Mcma.Server.Environment
         public EnvironmentOptions AddProvider(IEnvironmentVariableProvider provider)
         {
             VariableProviders.Add(provider);
+            return this;
+        }
+
+        /// <summary>
+        /// Adds an environment variable provider factory
+        /// </summary>
+        /// <param name="providerFactory"></param>
+        public EnvironmentOptions AddProviderFactory(Func<IEnvironment, IEnvironmentVariableProvider> providerFactory)
+        {
+            VariableProviderFactories.Add(providerFactory);
             return this;
         }
     }

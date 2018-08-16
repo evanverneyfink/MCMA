@@ -20,13 +20,8 @@
     <PackageReference Include="Mcma.Core" Version="0.0.0.3-alpha" />
     <PackageReference Include="Mcma.Server" Version="0.0.0.5-alpha" />
     <PackageReference Include="Mcma.Services.Jobs.WorkerFunctions" Version="0.0.0.5-alpha" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.1.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="external\mediainfo_17.12\mediainfo">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

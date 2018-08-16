@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Mcma.Azure" Version="0.0.0.9-alpha" />
+    <PackageReference Include="Mcma.Extensions.Files.AzureFileStorage" Version="0.0.0.7-alpha" />
+    <PackageReference Include="Mcma.Extensions.Repositories.AzureTableStorage" Version="0.0.0.7-alpha" />
+    <PackageReference Include="Mcma.Services.Ame.MediaInfo" Version="0.0.0.5-alpha" />
+    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="1.0.14" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="binaries\MediaInfo.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="host.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Worker\function.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="binaries\" />
+  </ItemGroup>
+
+  <Target AfterTargets="Build" Name="CopyExtensions">
+    <Copy SourceFiles="extensions.json" DestinationFolder="$(OutputPath)\bin" ContinueOnError="true" />
+  </Target>
+
+</Project>

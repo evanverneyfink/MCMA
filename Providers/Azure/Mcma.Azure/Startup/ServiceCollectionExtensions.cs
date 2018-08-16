@@ -22,9 +22,11 @@ namespace Mcma.Azure.Startup
 
             // add logging and config
             services
+                .Configure<LoggerOptions>(opts => opts.LogToConsole = true)
                 .AddSingleton<ILogger, MicrosoftLoggerWrapper>()
                 .AddEnvironment(opts => opts.AddProvider(new ConfigValueProvider(config))
-                                            .AddProvider(AzureFunctionPublicUrl.GetEnvironmentVariableProvider()));
+                                            .AddProviderFactory(AzureEnvironment.GetPublicUrlProvider))
+                .AddMcmaResourceDataHandling();
 
             return services;
         }
@@ -41,7 +43,6 @@ namespace Mcma.Azure.Startup
                                                             Action<IConfigurationBuilder> addConfig = null)
             => services
                .AddMcmaAzure(addConfig)
-               .AddMcmaResourceDataHandling()
                .AddMcmaResourceHandling(resourceHandlerRegistration)
                .AddMcmaServerDefaultApi()
                .AddScoped<IRequest, HttpRequestWrapper>()
@@ -67,8 +68,7 @@ namespace Mcma.Azure.Startup
             where T : class, IWorker
             => services
                .AddMcmaAzure(addConfig)
-               .AddSingleton<ILogger, MicrosoftLoggerWrapper>()
-               .AddMcmaResourceDataHandling()
-               .AddScoped<IWorker, T>();
+               .AddScoped<IWorker, T>()
+               .AddScoped<IMcmaAzureWorker, McmaAzureWorker>();
     }
 }

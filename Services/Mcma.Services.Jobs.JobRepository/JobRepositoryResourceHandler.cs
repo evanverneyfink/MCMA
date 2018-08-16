@@ -63,8 +63,7 @@ namespace Mcma.Services.Jobs.JobRepository
             try
             {
                 // send the job to the job processing endpoint
-                await DataHandler.Create(ResourceDescriptor.FromUrl<JobProcess>(serviceResource.Resource.HttpEndpoint),
-                                         new JobProcess {Job = job});
+                await DataHandler.Create(ResourceDescriptor.FromUrl<JobProcess>(serviceResource.Resource.HttpEndpoint), new JobProcess {Job = job});
 
                 return await Get(resourceDescriptor);
             }

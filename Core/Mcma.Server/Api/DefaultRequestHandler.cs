@@ -123,6 +123,8 @@ namespace Mcma.Server.Api
             }
             catch (Exception e)
             {
+                Logger.Error("An unexpected error occurred handling request to {0} {1}: {2}", request.Method, request.Path, e);
+
                 return request.Response.WithStatus(HttpStatusCode.InternalServerError).WithPlainTextBody(e.ToString());
             }
         }

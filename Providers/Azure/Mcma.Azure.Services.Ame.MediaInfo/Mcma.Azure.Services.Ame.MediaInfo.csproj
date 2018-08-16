@@ -5,24 +5,24 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Mcma.Azure" Version="0.0.0.6-alpha" />
-    <PackageReference Include="Mcma.Extensions.Files.AzureFileStorage" Version="0.0.0.6-alpha" />
-    <PackageReference Include="Mcma.Extensions.Repositories.AzureTableStorage" Version="0.0.0.6-alpha" />
-    <PackageReference Include="Mcma.Services.Ame.MediaInfo" Version="0.0.0.4-alpha" />
+    <PackageReference Include="Mcma.Azure" Version="0.0.0.8-alpha" />
+    <PackageReference Include="Mcma.Extensions.Files.AzureFileStorage" Version="0.0.0.7-alpha" />
+    <PackageReference Include="Mcma.Extensions.Repositories.AzureTableStorage" Version="0.0.0.7-alpha" />
+    <PackageReference Include="Mcma.Services.Ame.MediaInfo" Version="0.0.0.5-alpha" />
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="1.0.14" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="host.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="ResourceApi\function.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
   <Target AfterTargets="Build" Name="CopyExtensions">
+    <Copy SourceFiles="host.json" DestinationFolder="$(OutputPath)" ContinueOnError="true" />
     <Copy SourceFiles="extensions.json" DestinationFolder="$(OutputPath)\bin" ContinueOnError="true" />
+    <Copy SourceFiles="ResourceApi\function.json" DestinationFolder="$(OutputPath)\ResourceApi" ContinueOnError="true" />
+    <Copy SourceFiles="Worker\function.json" DestinationFolder="$(OutputPath)\Worker" ContinueOnError="true" />
   </Target>
 
 </Project>

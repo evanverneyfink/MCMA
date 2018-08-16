@@ -14,15 +14,22 @@ namespace Mcma.Azure
         /// Instantiates an <see cref="AzureFunctionWorkerInvoker"/>
         /// </summary>
         /// <param name="resourceSerializer"></param>
-        public AzureFunctionWorkerInvoker(IResourceSerializer resourceSerializer)
+        /// <param name="environment"></param>
+        public AzureFunctionWorkerInvoker(IResourceSerializer resourceSerializer, IEnvironment environment)
         {
             ResourceSerializer = resourceSerializer;
+            Environment = environment;
         }
 
         /// <summary>
         /// Gets the resource sserializer
         /// </summary>
         private IResourceSerializer ResourceSerializer { get; }
+
+        /// <summary>
+        /// Gets the environment
+        /// </summary>
+        private IEnvironment Environment { get; }
 
         /// <summary>
         /// Gets the HTTP client used to invoke Azure Functions via HTTP

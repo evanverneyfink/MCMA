@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.0.0.7-alpha</Version>
+    <Version>0.0.0.9-alpha</Version>
     <Authors>Evan Verney-Fink</Authors>
     <Company>Triskel</Company>
     <Description>Library for building MCMA services on Azure</Description>
@@ -24,17 +24,18 @@
   <ItemGroup>
     <PackageReference Include="Mcma.Core" Version="0.0.0.3-alpha" />
     <PackageReference Include="Mcma.Server" Version="0.0.0.5-alpha" />
-    <PackageReference Include="Mcma.Services.Jobs.WorkerFunctions" Version="0.0.0.4-alpha" />
+    <PackageReference Include="Mcma.Services.Jobs.WorkerFunctions" Version="0.0.0.5-alpha" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.WebApiCompatShim" Version="2.1.1" />
     <PackageReference Include="Microsoft.Azure.WebJobs.Extensions" Version="3.0.0-beta5" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.1.1" />
     <PackageReference Include="WindowsAzure.Storage" Version="8.6.0" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="mkdir &quot;%USERPROFILE%\.nuget\packages\$(ProjectName)\0.0.0.7-alpha\lib\netstandard2.0&quot;&#xD;&#xA;xcopy /e /y /r &quot;$(TargetPath)&quot; &quot;%USERPROFILE%\.nuget\packages\$(ProjectName)\0.0.0.7-alpha\lib\netstandard2.0&quot;" />
+    <Exec Command="mkdir &quot;%USERPROFILE%\.nuget\packages\$(ProjectName)\0.0.0.9-alpha\lib\netstandard2.0&quot;&#xD;&#xA;xcopy /e /y /r &quot;$(TargetPath)&quot; &quot;%USERPROFILE%\.nuget\packages\$(ProjectName)\0.0.0.9-alpha\lib\netstandard2.0&quot;" />
   </Target>
 
 </Project>

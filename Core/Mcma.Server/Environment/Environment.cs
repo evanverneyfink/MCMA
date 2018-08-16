@@ -14,6 +14,8 @@ namespace Mcma.Server.Environment
         public Environment(EnvironmentOptions options)
         {
             Options = options;
+
+            VariableProviders = Options.VariableProviders.Concat(Options.VariableProviderFactories.Select(f => f(this))).ToList();
         }
 
         /// <summary>
@@ -24,7 +26,7 @@ namespace Mcma.Server.Environment
         /// <summary>
         /// Gets the collection of environment variable providers
         /// </summary>
-        private List<IEnvironmentVariableProvider> VariableProviders => Options.VariableProviders;
+        private List<IEnvironmentVariableProvider> VariableProviders { get; }
 
         /// <summary>
         /// Gets the value of an environment variable with the given key

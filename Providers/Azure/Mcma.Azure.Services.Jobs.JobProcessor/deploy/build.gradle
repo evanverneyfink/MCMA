@@ -74,7 +74,6 @@ task readServiceJson {
 readServiceJson.dependsOn(getTerraformOutput);
 
 task getExistingJobProfiles(type: HttpTask) {
-    Object jobProfiles = null
     config {
         request.uri = serviceRegistryUrl
     }
@@ -83,13 +82,22 @@ task getExistingJobProfiles(type: HttpTask) {
         request.uri.query = [code: serviceRegistryCode]
         response.success { FromServer fs, Object obj ->
             ext.jobProfiles = obj
-            
         }
     }
 }
 getExistingJobProfiles.dependsOn(getTerraformOutput);
 
 task createOrUpdateJobProfiles {
+    config {
+        request.uri = serviceRegistryUrl
+    }
+    get {
+        request.uri.path = '/api/ResourceApi/JobProfiles'
+        request.uri.query = [code: serviceRegistryCode]
+        response.success { FromServer fs, Object obj ->
+            ext.jobProfiles = obj
+        }
+    }
 }
 createOrUpdateJobProfiles.dependsOn(readServiceJson);
 createOrUpdateJobProfiles.dependsOn(getExistingJobProfiles);

@@ -1,0 +1,17 @@
+{
+  "bindings": [
+    {
+      "type": "httpTrigger",
+      "name": "request",
+      "authLevel": "function",
+      "route": "Worker/{*all}"
+    },
+    {
+      "type": "inject",
+      "name": "worker"
+    }
+  ],
+  "disabled": false,
+  "scriptFile": "../bin/Mcma.Azure.Services.Ame.MediaInfo.Worker.dll",
+  "entryPoint": "Mcma.Azure.Services.Ame.MediaInfo.Worker.Functions.Worker"
+}

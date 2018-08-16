@@ -1,0 +1,129 @@
+import groovy.json.JsonSlurper
+import groovyx.net.http.FromServer
+import io.github.httpbuilderng.http.HttpTask
+
+plugins {
+  id "io.github.http-builder-ng.http-plugin" version "0.1.1"
+}
+
+task setVars {
+    project.ext.set("config", project.hasProperty("config") ? config : "Release")
+}
+
+task dotNetClean(type: Exec) {
+    commandLine "cmd", "/c", "dotnet"
+    args "clean", "..", "-c=${project.config}"
+}
+dotNetClean.dependsOn(setVars);
+
+task dotNetBuild(type: Exec) {
+    commandLine "cmd", "/c", "dotnet"
+    args "build", "..", "-c=${project.config}"
+
+    ext.version = new Date().format("yyyyMMddHHmmss")
+}
+dotNetBuild.dependsOn(dotNetClean);
+
+task zipOutput(type: Zip) {
+    from "..\\bin\\${project.config}\\netstandard2.0"
+    destinationDir = file("..\\bin\\${project.config}\\FunctionPackages")
+    archiveName = "function_" + dotNetBuild.ext.version + ".zip"
+
+    ext.archiveTerraformPath = "../../bin/${project.config}/FunctionPackages/" + zipOutput.archiveName;
+}
+zipOutput.dependsOn(dotNetBuild);
+
+task setZipFunctionVar {
+    File zipVarFile = new File("terraform\\zip-file.tfvars");
+    zipVarFile.setText("restApiZipFile = \"" + zipOutput.ext.archiveTerraformPath + "\"");
+}
+setZipFunctionVar.dependsOn(zipOutput);
+
+task terraformInit(type: Exec) {
+    commandLine "cmd", "/c", "terraform"
+    args "init", "-input=false", "-backend-config=s3.backend"
+    workingDir "terraform"
+}
+
+task terraformApply(type: Exec) {
+    commandLine "cmd", "/c", "terraform"
+    args "apply", "-auto-approve", "-var-file=\"private.tfvars\"", "-var-file=\"public.tfvars\"", "-var-file=\"zip-file.tfvars\""
+    workingDir "terraform"
+}
+terraformApply.dependsOn(terraformInit);
+
+task getTerraformOutput(type: Exec) {
+    commandLine "cmd", "/c", "terraform"
+    args "output", "-json"
+    workingDir "terraform"
+
+    standardOutput = new ByteArrayOutputStream()
+
+    ext.tfOutput = {
+        String json = standardOutput.toString();
+        return json != null && json != "" ? new JsonSlurper().parseText(json) : null;
+    }
+}
+
+task readServiceJson {
+    if (getTerraformOutput.ext.tfOutput() != null) {
+        File serviceJsonFile = new File("..\\service.json");
+        ext.serviceJson = serviceJsonFile.text.replace("{{{serviceUrl}}}",  getTerraformOutput.ext.tfOutput().restServiceUrl);
+    }
+}
+readServiceJson.dependsOn(getTerraformOutput);
+
+task getExistingJobProfiles(type: HttpTask) {
+    Object jobProfiles = null
+    config {
+        request.uri = serviceRegistryUrl
+    }
+    get {
+        request.uri.path = '/JobProfiles'
+        response.success { FromServer fs ->
+            ext.jobProfiles = new JsonSlurper().parseText(fs.inputStream.text)
+        }
+    }
+}
+getExistingJobProfiles.dependsOn(getTerraformOutput);
+
+task createOrUpdateJobProfiles {
+
+}
+createOrUpdateJobProfiles.dependsOn(readServiceJson);
+createOrUpdateJobProfiles.dependsOn(getExistingJobProfiles);
+
+task createOrUpdateService {
+    
+}
+createOrUpdateService.dependsOn(createOrUpdateJobProfiles);
+
+task runLocalAzureFuncRuntime(type: Exec) {
+    commandLine "cmd", "/c", "func"
+    args "start"
+    workingDir "..\\bin\\${project.config}\\netstandard2.0"
+}
+runLocalAzureFuncRuntime.dependsOn(dotNetBuild);
+
+task build {}
+build.dependsOn(dotNetBuild);
+
+task pack {}
+pack.dependsOn(setZipFunctionVar);
+
+task deploy {}
+deploy.dependsOn(terraformApply);
+
+task register {}
+register.dependsOn(createOrUpdateService);
+
+task packAndDeploy{}
+packAndDeploy.dependsOn(pack);
+packAndDeploy.finalizedBy(deploy);
+
+task packDeployAndRegister{}
+packDeployAndRegister.dependsOn(packAndDeploy);
+packDeployAndRegister.finalizedBy(register);
+
+task debug {}
+debug.dependsOn(runLocalAzureFuncRuntime);

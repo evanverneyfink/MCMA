@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Mcma.Azure.Services.Ame.MediaInfo": {
+      "commandName": "Executable",
+      "executablePath": "%APPDATA%\\npm\\func.cmd",
+      "commandLineArgs": "start",
+      "workingDirectory": "$(OutDir)"
+    }
+  }
+}

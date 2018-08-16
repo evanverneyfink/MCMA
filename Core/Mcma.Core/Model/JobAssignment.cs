@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System.Dynamic;
 
 namespace Mcma.Core.Model
 {
@@ -10,6 +10,6 @@ namespace Mcma.Core.Model
 
         public string JobProcessStatusReason { get; set; }
 
-        public IDictionary<string, object> JobOutput { get; set; }
+        public ExpandoObject JobOutput { get; set; }
     }
 }
