@@ -1,1 +1,0 @@
-restApiZipFile = "../../bin/Release/FunctionPackages/function_20180803084133.zip"

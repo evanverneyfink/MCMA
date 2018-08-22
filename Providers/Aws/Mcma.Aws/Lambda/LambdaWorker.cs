@@ -18,7 +18,7 @@ namespace Mcma.Aws.Lambda
         /// <param name="lambdaContext"></param>
         /// <param name="configure"></param>
         /// <returns></returns>
-        public static async Task Handle<T>(Stream input, ILambdaContext lambdaContext, Action<McmaAwsServiceBuilder> configure = null) where T : class, IWorker
+        public static async void Handle<T>(Stream input, ILambdaContext lambdaContext, Action<McmaAwsServiceBuilder> configure = null) where T : class, IWorker
         {
             IMcmaAwsWorkerService service = null;
             try

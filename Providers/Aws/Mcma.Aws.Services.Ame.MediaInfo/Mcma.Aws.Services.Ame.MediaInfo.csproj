@@ -9,7 +9,7 @@
     <PackageReference Include="Mcma.Aws" Version="0.0.0.5-alpha" />
     <PackageReference Include="Mcma.Extensions.Files.S3" Version="0.0.0.7-alpha" />
     <PackageReference Include="Mcma.Extensions.Repositories.DynamoDb" Version="0.0.0.5-alpha" />
-    <PackageReference Include="Mcma.Services.Ame.MediaInfo" Version="0.0.0.4-alpha" />
+    <PackageReference Include="Mcma.Services.Ame.MediaInfo" Version="0.0.0.5-alpha" />
   </ItemGroup>
 
 </Project>

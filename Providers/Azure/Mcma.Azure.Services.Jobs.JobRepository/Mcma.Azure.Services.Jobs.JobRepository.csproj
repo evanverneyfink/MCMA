@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Mcma.Azure" Version="0.0.0.8-alpha" />
+    <PackageReference Include="Mcma.Azure" Version="0.0.0.9-alpha" />
     <PackageReference Include="Mcma.Extensions.Files.AzureFileStorage" Version="0.0.0.7-alpha" />
     <PackageReference Include="Mcma.Extensions.Repositories.AzureTableStorage" Version="0.0.0.7-alpha" />
     <PackageReference Include="Mcma.Services.Jobs.JobRepository" Version="0.0.0.5-alpha" />

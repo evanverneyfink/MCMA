@@ -2,6 +2,7 @@ using System;
 using Mcma.Azure.Http;
 using Mcma.Server;
 using Mcma.Server.Api;
+using Mcma.Server.AuthorizedUrls;
 using Mcma.Server.Business;
 using Mcma.Server.Data;
 using Mcma.Server.Environment;
@@ -26,7 +27,9 @@ namespace Mcma.Azure.Startup
                 .AddSingleton<ILogger, MicrosoftLoggerWrapper>()
                 .AddEnvironment(opts => opts.AddProvider(new ConfigValueProvider(config))
                                             .AddProviderFactory(AzureEnvironment.GetPublicUrlProvider))
-                .AddMcmaResourceDataHandling();
+                .AddMcmaResourceDataHandling()
+                .AddAuthorizedUrlBuilding()
+                .AddProviderAuthorizedUrlBuilder<AzureCodeAuthorizerUrlProvider>();
 
             return services;
         }

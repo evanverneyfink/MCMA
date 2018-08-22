@@ -6,6 +6,7 @@ using Mcma.Core.Jobs;
 using Mcma.Core.Model;
 using Mcma.Server;
 using Mcma.Server.Api;
+using Mcma.Server.AuthorizedUrls;
 using Mcma.Server.Business;
 using Mcma.Server.Data;
 using Mcma.Server.Environment;
@@ -21,13 +22,21 @@ namespace Mcma.Services.Jobs.JobProcessor
         /// <param name="dataHandler"></param>
         /// <param name="resourceDescriptorHelper"></param>
         /// <param name="environment"></param>
+        /// <param name="authorizedUrlBuilder"></param>
         public JobProcessorResourceHandler(ILogger logger,
                                            IEnvironment environment,
                                            IResourceDataHandler dataHandler,
-                                           IResourceDescriptorHelper resourceDescriptorHelper)
+                                           IResourceDescriptorHelper resourceDescriptorHelper,
+                                           IAuthorizedUrlBuilder authorizedUrlBuilder)
             : base(logger, environment, dataHandler, resourceDescriptorHelper)
         {
+            AuthorizedUrlBuilder = authorizedUrlBuilder;
         }
+
+        /// <summary>
+        /// Gets the authorized url builder
+        /// </summary>
+        private IAuthorizedUrlBuilder AuthorizedUrlBuilder { get; }
 
         /// <summary>
         /// Handles creation of a job
@@ -54,8 +63,7 @@ namespace Mcma.Services.Jobs.JobProcessor
                 job.JobProcess = jobProcess.Id;
 
                 // get all services
-                var services = await DataHandler.Query<Service>(
-                                   ResourceDescriptor.FromUrl<Service>(Environment.ServiceRegistryUrl().TrimEnd('/') + "/Services"));
+                var services = await DataHandler.Query<Service>(ResourceDescriptor.FromUrl<Service>(Environment.ServiceRegistryServicesUrl()));
 
                 // find first service that can accept the job type and that has a job assignment endpoint
                 var serviceResource =
@@ -70,10 +78,13 @@ namespace Mcma.Services.Jobs.JobProcessor
                 {
                     try
                     {
+                        // gets the authorized url
+                        var authorizedUrl = AuthorizedUrlBuilder.GetAuthorizedUrl(serviceResource.Resource);
+
                         // send the job to the job assignment endpoint
                         var jobAssignment =
-                            await DataHandler.Create(ResourceDescriptor.FromUrl<JobAssignment>(serviceResource.Resource.HttpEndpoint),
-                                                     new JobAssignment {JobProcess = jobProcess.Id });
+                            await DataHandler.Create(ResourceDescriptor.FromUrl<JobAssignment>(authorizedUrl),
+                                                     new JobAssignment {JobProcess = jobProcess.Id});
 
                         // set assignment back on the job process
                         jobProcess.JobAssignment = jobAssignment.Id;

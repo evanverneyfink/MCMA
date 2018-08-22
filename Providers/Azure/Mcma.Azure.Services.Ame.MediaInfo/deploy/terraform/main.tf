@@ -13,6 +13,7 @@ variable "runtime" {}
 variable "serviceName" {}
 variable "environmentName" {}
 variable "environmentType" {}
+variable "workerFunctionUrl" {}
 
 variable "restApiZipFile" {}
 
@@ -128,6 +129,7 @@ resource "azurerm_function_app" "api_function" {
     StorageAccountName             = "${azurerm_storage_account.storage_account.name}"
     StorageAccountKeyValue         = "${azurerm_storage_account.storage_account.primary_access_key}"
     TableName                      = "${var.serviceName}"
+    WorkerFunctionName             = "${var.workerFunctionUrl}"
   }
 }
 

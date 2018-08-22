@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Mcma.Azure.DependencyInjection;
 using Microsoft.AspNetCore.Http;
@@ -11,7 +12,16 @@ namespace Mcma.Azure.Services.ServiceRegistry
         [FunctionName(nameof(ResourceApi))]
         public static Task<IActionResult> ResourceApi([HttpTrigger] HttpRequest request, [Inject] IMcmaAzureResourceApi resourceApi)
         {
-            return resourceApi.HandleRequest(request);
+            Console.WriteLine("Start ServiceRegistry call");
+            try
+            {
+                return resourceApi.HandleRequest(request);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }

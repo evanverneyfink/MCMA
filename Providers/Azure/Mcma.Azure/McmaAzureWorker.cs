@@ -1,5 +1,4 @@
 using System.IO;
-using System.Threading.Tasks;
 using Mcma.Core.Model;
 using Mcma.Core.Serialization;
 using Mcma.Server.Environment;
@@ -43,7 +42,7 @@ namespace Mcma.Azure
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public async Task DoWork(HttpRequest request)
+        public async void DoWork(HttpRequest request)
         {
             await Worker.Execute(await ResourceSerializer.Deserialize<JobAssignment>(await new StreamReader(request.Body).ReadToEndAsync()));
         }

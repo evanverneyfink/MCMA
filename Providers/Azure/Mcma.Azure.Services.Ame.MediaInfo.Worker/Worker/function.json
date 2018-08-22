@@ -3,7 +3,7 @@
     {
       "type": "httpTrigger",
       "name": "request",
-      "authLevel": "function",
+      "authLevel": "anonymous",
       "route": "Worker/{*all}"
     },
     {

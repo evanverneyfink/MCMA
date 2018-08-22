@@ -13,6 +13,7 @@ variable "runtime" {}
 variable "serviceName" {}
 variable "environmentName" {}
 variable "environmentType" {}
+variable "serviceRegistryUrl" {}
 
 variable "restApiZipFile" {}
 
@@ -128,6 +129,7 @@ resource "azurerm_function_app" "api_function" {
     StorageAccountName             = "${azurerm_storage_account.storage_account.name}"
     StorageAccountKeyValue         = "${azurerm_storage_account.storage_account.primary_access_key}"
     TableName                      = "${var.serviceName}"
+    ServiceRegistryServicesUrl     = "${var.serviceRegistryUrl}"
   }
 }
 

@@ -5,6 +5,7 @@ using Mcma.Core;
 using Mcma.Core.Model;
 using Mcma.Server;
 using Mcma.Server.Api;
+using Mcma.Server.AuthorizedUrls;
 using Mcma.Server.Business;
 using Mcma.Server.Data;
 using Mcma.Server.Environment;
@@ -20,13 +21,21 @@ namespace Mcma.Services.Jobs.JobRepository
         /// <param name="environment"></param>
         /// <param name="dataHandler"></param>
         /// <param name="resourceDescriptorHelper"></param>
+        /// <param name="authorizedUrlBuilder"></param>
         public JobRepositoryResourceHandler(ILogger logger,
                                             IEnvironment environment,
                                             IResourceDataHandler dataHandler,
-                                            IResourceDescriptorHelper resourceDescriptorHelper)
+                                            IResourceDescriptorHelper resourceDescriptorHelper,
+                                            IAuthorizedUrlBuilder authorizedUrlBuilder)
             : base(logger, environment, dataHandler, resourceDescriptorHelper)
         {
+            AuthorizedUrlBuilder = authorizedUrlBuilder;
         }
+
+        /// <summary>
+        /// Gets the authorized url builder
+        /// </summary>
+        private IAuthorizedUrlBuilder AuthorizedUrlBuilder { get; }
 
         /// <summary>
         /// Overridden to send job to job processor
@@ -42,8 +51,7 @@ namespace Mcma.Services.Jobs.JobRepository
             var job = await base.Create(resourceDescriptor, resource);
 
             // get all services
-            var services = await DataHandler.Query<Service>(
-                               ResourceDescriptor.FromUrl<Service>(Environment.ServiceRegistryUrl().TrimEnd('/') + "/Services"));
+            var services = await DataHandler.Query<Service>(ResourceDescriptor.FromUrl<Service>(Environment.ServiceRegistryServicesUrl()));
 
             // find first service that has a job processing endpoint
             var serviceResource =
@@ -62,8 +70,11 @@ namespace Mcma.Services.Jobs.JobRepository
 
             try
             {
+                // gets the authorized url
+                var url = AuthorizedUrlBuilder.GetAuthorizedUrl(serviceResource.Resource);
+                
                 // send the job to the job processing endpoint
-                await DataHandler.Create(ResourceDescriptor.FromUrl<JobProcess>(serviceResource.Resource.HttpEndpoint), new JobProcess {Job = job});
+                await DataHandler.Create(ResourceDescriptor.FromUrl<JobProcess>(url), new JobProcess {Job = job});
 
                 return await Get(resourceDescriptor);
             }

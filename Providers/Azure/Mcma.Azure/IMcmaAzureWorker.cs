@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
 namespace Mcma.Azure
@@ -10,6 +9,6 @@ namespace Mcma.Azure
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        Task DoWork(HttpRequest request);
+        void DoWork(HttpRequest request);
     }
 }

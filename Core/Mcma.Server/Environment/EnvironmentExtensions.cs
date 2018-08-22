@@ -22,7 +22,7 @@ namespace Mcma.Server.Environment
         /// <summary>
         /// Gets the service registry url
         /// </summary>
-        public static string ServiceRegistryUrl(this IEnvironment env) => env.Get<string>(nameof(ServiceRegistryUrl));
+        public static string ServiceRegistryServicesUrl(this IEnvironment env) => env.Get<string>(nameof(ServiceRegistryServicesUrl));
 
         /// <summary>
         /// Checks if a resource descriptor is for a local resource

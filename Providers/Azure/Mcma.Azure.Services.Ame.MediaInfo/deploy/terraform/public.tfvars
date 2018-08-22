@@ -7,3 +7,5 @@ serviceName = "MediaInfo"
 environmentName = "Mcma"
 
 environmentType = "Dev"
+
+workerFunctionUrl = "https://mediainfoworkermcmadevfunction.azurewebsites.net/api/Worker"

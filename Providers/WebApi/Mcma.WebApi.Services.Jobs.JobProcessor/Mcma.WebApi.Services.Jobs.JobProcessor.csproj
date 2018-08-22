@@ -10,9 +10,9 @@
 
   <ItemGroup>
     <PackageReference Include="Mcma.Core" Version="0.0.0.3-alpha" />
-    <PackageReference Include="Mcma.Extensions.Repositories.LiteDb" Version="0.0.0.4-alpha" />
+    <PackageReference Include="Mcma.Extensions.Repositories.LiteDb" Version="0.0.0.5-alpha" />
     <PackageReference Include="Mcma.Server" Version="0.0.0.5-alpha" />
-    <PackageReference Include="Mcma.Services.Jobs.JobProcessor" Version="0.0.0.4-alpha" />
+    <PackageReference Include="Mcma.Services.Jobs.JobProcessor" Version="0.0.0.5-alpha" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.1" />
   </ItemGroup>
 

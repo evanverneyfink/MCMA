@@ -9,11 +9,11 @@ namespace Mcma.Azure.Services.Ame.MediaInfo.Worker
     public static class Functions
     {
         [FunctionName(nameof(Worker))]
-        public static async Task<IActionResult> Worker([HttpTrigger] HttpRequest request, [Inject] IMcmaAzureWorker worker)
+        public static Task<IActionResult> Worker([HttpTrigger] HttpRequest request, [Inject] IMcmaAzureWorker worker)
         {
-            await worker.DoWork(request);
+            worker.DoWork(request);
 
-            return new OkResult();
+            return Task.FromResult<IActionResult>(new OkResult());
         }
     }
 }

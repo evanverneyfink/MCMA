@@ -52,61 +52,6 @@ task terraformApply(type: Exec) {
 }
 terraformApply.dependsOn(terraformInit);
 
-task getTerraformOutput(type: Exec) {
-    commandLine "cmd", "/c", "terraform"
-    args "output", "-json"
-    workingDir "terraform"
-
-    standardOutput = new ByteArrayOutputStream()
-
-    ext.tfOutput = {
-        String json = standardOutput.toString();
-        return json != null && json != "" ? new JsonSlurper().parseText(json) : null;
-    }
-}
-
-task readServiceJson {
-    if (getTerraformOutput.ext.tfOutput() != null) {
-        File serviceJsonFile = new File("..\\service.json");
-        ext.serviceJson = serviceJsonFile.text.replace("{{{serviceUrl}}}",  getTerraformOutput.ext.tfOutput().restServiceUrl);
-    }
-}
-readServiceJson.dependsOn(getTerraformOutput);
-
-task getExistingJobProfiles(type: HttpTask) {
-    config {
-        request.uri = serviceRegistryUrl
-    }
-    get {
-        request.uri.path = '/api/ResourceApi/JobProfiles'
-        request.uri.query = [code: serviceRegistryCode]
-        response.success { FromServer fs, Object obj ->
-            ext.jobProfiles = obj
-        }
-    }
-}
-getExistingJobProfiles.dependsOn(getTerraformOutput);
-
-task createOrUpdateJobProfiles {
-    config {
-        request.uri = serviceRegistryUrl
-    }
-    get {
-        request.uri.path = '/api/ResourceApi/JobProfiles'
-        request.uri.query = [code: serviceRegistryCode]
-        response.success { FromServer fs, Object obj ->
-            ext.jobProfiles = obj
-        }
-    }
-}
-createOrUpdateJobProfiles.dependsOn(readServiceJson);
-createOrUpdateJobProfiles.dependsOn(getExistingJobProfiles);
-
-task createOrUpdateService {
-    
-}
-createOrUpdateService.dependsOn(createOrUpdateJobProfiles);
-
 task runLocalAzureFuncRuntime(type: Exec) {
     commandLine "cmd", "/c", "func"
     args "start"
@@ -123,16 +68,9 @@ pack.dependsOn(setZipFunctionVar);
 task deploy {}
 deploy.dependsOn(terraformApply);
 
-task register {}
-register.dependsOn(createOrUpdateService);
-
 task packAndDeploy{}
 packAndDeploy.dependsOn(pack);
 packAndDeploy.finalizedBy(deploy);
-
-task packDeployAndRegister{}
-packDeployAndRegister.dependsOn(packAndDeploy);
-packDeployAndRegister.finalizedBy(register);
 
 task debug {}
 debug.dependsOn(runLocalAzureFuncRuntime);

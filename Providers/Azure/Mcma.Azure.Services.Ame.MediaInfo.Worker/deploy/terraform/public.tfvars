@@ -2,7 +2,7 @@ runtime = "dotnetcore2.0"
 
 region = "East US"
 
-serviceName = "Mcma.Azure.Services.Ame.MediaInfo.Worker"
+serviceName = "MediaInfoWorker"
 
 environmentName = "Mcma"
 

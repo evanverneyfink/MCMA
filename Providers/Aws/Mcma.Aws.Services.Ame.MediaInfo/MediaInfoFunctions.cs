@@ -39,9 +39,9 @@ namespace Mcma.Aws.Services.Ame.MediaInfo
         /// <param name="input"></param>
         /// <param name="context"></param>
         /// <returns></returns>
-        public Task Worker(Stream input, ILambdaContext context)
+        public void Worker(Stream input, ILambdaContext context)
         {
-            return LambdaWorker.Handle<MediaInfoWorker>(
+            LambdaWorker.Handle<MediaInfoWorker>(
                 input,
                 context,
                 serviceBuilder =>
