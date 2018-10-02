@@ -58,6 +58,13 @@ namespace Mcma.Json
         {
             var jObj = JObject.FromObject(obj, JsonSerializer.CreateDefault(Options.JsonSerializerSettings));
 
+            // replace "type" with "@type"
+            if (jObj.ContainsKey("type"))
+            {
+                jObj["@type"] = jObj["type"];
+                jObj.Remove("type");
+            }
+
             var props = obj.GetType().GetProperties().ToDictionary(p => p.Name.PascalCaseToCamelCase(), p => p.PropertyType);
 
             foreach (var jProp in jObj.Properties())
@@ -132,7 +139,7 @@ namespace Mcma.Json
         /// <returns></returns>
         private Type GetTypeFromJson(JObject jObj, bool throwOnFailure)
         {
-            var typeName = jObj[nameof(Resource.Type).PascalCaseToCamelCase()];
+            var typeName = jObj["@type"];
             if (typeName == null)
             {
                 if (!throwOnFailure) return null;
